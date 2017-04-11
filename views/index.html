@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+		<html lang="en" class="ie8 no-js" id="ng-app"  data-ng-app="vrApp"> <![endif]-->
+<!--[if IE 9]>
+		<html lang="en" class="ie9 no-js" id="ng-app"  data-ng-app="vrApp"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" data-ng-app="vrApp">
+<!--<![endif]-->
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>VR管理后台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Preview page of Metronic Admin Theme #2 for statistics, charts, recent events and reports" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="/public/lib/css/vr.admin.min.css" rel="stylesheet" type="text/css" />
+    <link href="/public/page/css/custom.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
+
+    <div ng-spinner-bar class="page-spinner-bar" ng-spinner-bar>
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+
+    <div class="page-header navbar navbar-fixed-top" ng-include="'vr_header.html'" ng-controller="HeaderController"></div>
+
+    <div class="clearfix"></div>
+
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            <div class="page-sidebar navbar-collapse collapse" ng-include="'vr_sidebar.html'" data-ng-controller="SidebarController"></div>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <div ui-view class="fade-in-up"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--[if lt IE 9]>
+        <script src="/public/lib/js/vr.admin.ie8.min.js"></script>
+    <![endif]-->
+    <script src="/public/lib/js/vr.admin.min.js" type="text/javascript"></script>
+    <script src="/public/lib/js/pub.js" type="text/javascript"></script>
+    <script src="/public/page/js/vrapp.js" type="text/javascript"></script>
+    <script src="/public/lib/js/layout.min.js" type="text/javascript"></script>
+    <script src="/public/lib/js/vr.helper.js" type="text/javascript"></script>
+
+
+
+    <script src="/public/page/js/common/filter.js" type="text/javascript"></script>
+    <script src="/public/page/js/common/directives.js" type="text/javascript"></script>
+    <script src="/public/page/js/common/server.js" type="text/javascript"></script>
+
+
+    <!-- VR首页  开始-->
+    <script type="text/ng-template" id="vr_index.html">
+
+    </script>
+    <!-- VR首页  结束-->
+
+    <!-- VR首页  开始-->
+    <script type="text/ng-template" id="temp.html">
+
+    </script>
+    <!-- VR首页  结束-->
+
+
+
+
+    <!-- 顶部模板 开始 -->
+    <script type="text/ng-template" id="vr_header.html">
+        <div class="page-header-inner">
+            <div class="page-logo">
+                <a href="index.html">VR后台管理</a>
+            </div>
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+            <div class="page-top"></div>
+        </div>
+    </script>
+    <!-- 顶部模板 结束-->
+
+    <!-- 左侧菜单 开始 -->
+    <script type="text/ng-template" id="vr_sidebar.html">
+        <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu page-sidebar-menu-compact" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+            <li class="nav-item start active">
+                <a href="index.html" class="nav-link nav-toggle">
+                    <i class="icon-users"></i>
+                    <div class="title">首页</div>
+                    <span class="selected"></span>
+                    <span class="arrow open"></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href=" order_manage.html" class="nav-link nav-toggle">
+                    <i class="icon-user-following"></i>
+                    <span class="title">订单管理</span>
+                    <span class="arrow"></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="equipment_manage.html" class="nav-link nav-toggle">
+                    <i class="icon-bar-chart"></i>
+                    <span class="title">设备管理</span>
+                    <span class="arrow"></span>
+                </a>
+            </li>
+            <% if(userType=='USER_TYPE_ADMIN'){%>
+                <li class="nav-item">
+                    <a href=" QR_code_manage.html" class="nav-link nav-toggle">
+                        <i class="icon-bulb"></i>
+                        <span class="title">二维码管理</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href=" agent_manage.html" class="nav-link nav-toggle">
+                        <i class="icon-notebook"></i>
+                        <span class="title">代理商管理</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <%}%>
+
+                    <li class="nav-item">
+                        <a href=" hotel_manage.html" class="nav-link nav-toggle">
+                            <i class="icon-globe"></i>
+                            <span class="title">酒店管理</span>
+                            <span class="arrow"></span>
+                        </a>
+                    </li>
+                    <% if(userType=='USER_TYPE_ADMIN'){%>
+
+                        <li class="nav-item">
+                            <a href=" ad_manage.html" class="nav-link nav-toggle">
+                                <i class="icon-credit-card"></i>
+                                <span class="title">广告管理</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+
+                        <%}%>
+                            <li class="nav-item">
+                                <a href=" information_manage.html" class="nav-link nav-toggle">
+                                    <i class="icon-settings"></i>
+                                    <span class="title">信息管理</span>
+                                    <span class="arrow"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href=" login.html" class="nav-link nav-toggle">
+                                    <i class=" icon-logout"></i>
+                                    <span class="title">退出</span>
+                                    <span class="arrow"></span>
+                                </a>
+                            </li>
+        </ul>
+    </script>
+    <!-- 左侧菜单 结束-->
+
+</body>
+
+</html>

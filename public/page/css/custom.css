@@ -1,0 +1,151 @@
+/* here you can put your own css to customize and override the theme */
+/* here you can put your own css to customize and override the theme */
+body {
+    font-family: "Helvetica Neue", helvetica, 'lucida grande', 'lucida sans unicode', lucida, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #484744;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Helvetica Neue", helvetica, 'lucida grande', 'lucida sans unicode', lucida, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+}
+
+.page-header.navbar .page-logo .logo-default {
+    margin: 16px 0 0;
+}
+
+.login-remind {
+    width: 100%;
+    float: left;
+    margin: 0;
+    padding: 30px 60px;
+    background: #fff;
+}
+
+.login-remind h3 {
+}
+
+.login-remind .todo-blue {
+    color: #49a7fa;
+}
+
+.login-remind p {
+    color: #a0a9b4;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+.page-header.navbar .page-logo{
+    /*background: #fd5757;*/
+    background: #17C4BB;
+}
+.margin-left-10 {
+    margin-left: 10px;
+}
+.margin-left-20 {
+    margin-left: 20px;
+}
+.margin-left-30 {
+    margin-left: 30px;
+}
+.margin-left-50 {
+    margin-left: 50px;
+}
+.margin-top-0 {
+    margin-top: 0;
+}
+.margin-top-5 {
+    margin-top: 5px;
+}
+.margin-right-20{
+    margin-right:20px;
+}
+.page-header.navbar .page-logo a{
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 20px 0 0 18px;
+}
+.page-header.navbar .page-logo a:hover,.page-header.navbar .page-logo a:focus{
+
+}
+.empty {
+    width: 100%;
+    min-height: 300px;
+    padding: 30px 0;
+    text-align: center;
+    line-height: 10px;
+}
+
+.empty .img {
+    width: 150px;
+    height: 150px;
+    background: url("../img/empty.png");
+    background-size: 100% 100%;
+    display: block;
+    margin: 20px auto 0 auto;
+}
+
+.empty-info {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.page-header.navbar .page-top {
+    box-shadow: none;
+    background: #fff;
+}
+.page-header.navbar{
+    background-color: #fff;
+}
+.page-top{
+    padding: 24px 20px 19px;
+    color: #7f96ac;
+    text-decoration: none;
+    font-size: 16px;
+    float: left;
+    width: 400px;
+
+}
+
+/*----------------------------------------*/
+.margin-right-15{
+    margin-right: 15px;
+}
+.time-bar {
+    width: 100%;
+    float: left;
+    padding: 10px 15px 10px;
+    background: #fff;
+    margin-bottom: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #32c5d2;
+    border: 1px solid #ebebeb;
+}
+.dashboard-stat{
+    margin-bottom: 10px!important;
+    border-radius: 3px!important;
+}
+.border-radius-5{
+    border-radius: 5px!important;
+}
+.add_equipment{
+    padding: 9px 8px 5px 7px;
+}
+.add_equipment:hover{
+    background-color: #dee5ec ;
+}
+.add_equipment i{
+    font-size: 20px;
+}
+.agent_manage{
+    background-color: #ebebeb;
+    height: 50px;
+    line-height: 50px;
+}
+
