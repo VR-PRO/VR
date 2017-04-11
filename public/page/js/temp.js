@@ -9,15 +9,17 @@
     TempController.$inject = ['$scope'];
 
     function TempController($scope) {
-        var tempVm = this,
-        curIndex = -1,
-        urls = {};
+        var indexVm = this,
+            curIndex = -1,
+            dateTimeType = 'curmonth',
+            _t = vrHelper.getDateTimeByType(dateTimeType),
+            urls = {};
 
         tempVm.loading = false;
         tempVm.directives = {
 
         };
-        tempVm.temp = {
+        tempVm.page = {
             vm: {
 
             },

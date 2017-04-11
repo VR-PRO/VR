@@ -102,6 +102,106 @@ vrApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
                     }]);
                 }]
             }
-        });
+        })
+        .state('order', {
+            url: "/order.html",
+            templateUrl: "vr_order.html",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'vrApp',
+                        files: [
+                            vrHelper.staticPer + '/order/orderListController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+        .state('dev', {
+            url: "/dev.html",
+            templateUrl: "vr_dev.html",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'vrApp',
+                        files: [
+                            vrHelper.staticPer + '/dev/devListController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+        .state('qrcode', {
+            url: "/qrcode.html",
+            templateUrl: "vr_qrcode.html",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'vrApp',
+                        files: [
+                            vrHelper.staticPer + '/qrcode/qrcodeListController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+        .state('agent', {
+            url: "/agent.html",
+            templateUrl: "vr_agent.html",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'vrApp',
+                        files: [
+                            vrHelper.staticPer + '/agent/agentListController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+        .state('hotel', {
+            url: "/hotel.html",
+            templateUrl: "vr_hotel.html",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'vrApp',
+                        files: [
+                            vrHelper.staticPer + '/hotel/hotelListController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+        .state('adv', {
+            url: "/adv.html",
+            templateUrl: "vr_adv.html",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'vrApp',
+                        files: [
+                            vrHelper.staticPer + '/adv/advListController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+        .state('info', {
+            url: "/info.html",
+            templateUrl: "vr_info.html",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'vrApp',
+                        files: [
+                            vrHelper.staticPer + '/info/infoController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+
+    ;
 
 }]);

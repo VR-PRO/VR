@@ -61,15 +61,642 @@
 
     <!-- VR首页  开始-->
     <script type="text/ng-template" id="vr_index.html">
+        <div data-ng-controller="IndexController as indexVm">
 
+            <time-bar conf="indexVm.directives.timeOptCfg"></time-bar>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+                        <div class="visual">
+                            <i class="fa fa-comments"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                <span data-counter="counterup" data-value="500000"> ¥ 500000 </span>
+                            </div>
+                            <div class="desc"> 收入 </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a class="dashboard-stat dashboard-stat-v2 red" href="#">
+                        <div class="visual">
+                            <i class="fa fa-bar-chart-o"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                <span data-counter="counterup" data-value="50000"> ¥ 200000 </span>
+                            </div>
+                            <div class="desc"> 分成 </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a class="dashboard-stat dashboard-stat-v2 green" href="#">
+                        <div class="visual">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                <span data-counter="counterup" data-value="300000"> ¥ 300000 </span>
+                            </div>
+                            <div class="desc"> 利润 </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
+                        <div class="visual">
+                            <i class="fa fa-globe"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                <span data-counter="counterup" data-value="89"> 2000 </span>
+                            </div>
+                            <div class="desc"> 设备数 </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                    <div class="portlet light ">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="icon-social-dribbble font-green"></i>
+                                <span class="caption-subject font-green bold uppercase"> 统计表 </span>
+                            </div>
+                            <div class="actions">
+
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+
+                            <!-- 自用首页  -->
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr>
+                                        <th> # </th>
+                                        <th> 代理商 </th>
+                                        <th> 收入金额 </th>
+                                        <th> 分成金额 </th>
+                                        <th> 设备数 </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> 1 </td>
+                                        <td> 张三 </td>
+                                        <td> ¥2000 </td>
+                                        <td> ¥1000 </td>
+                                        <td> 10 </td>
+                                    </tr>
+                                    <tr>
+                                        <td> 2 </td>
+                                        <td> 李四 </td>
+                                        <td> ¥2000 </td>
+                                        <td> ¥1000 </td>
+                                        <td> 10 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- 代理商首页  -->
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr>
+                                        <th> # </th>
+                                        <th> 酒店名 </th>
+                                        <th> 收入金额 </th>
+                                        <th> 分成金额 </th>
+                                        <th> 设备数 </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> 1 </td>
+                                        <td> 汉庭 </td>
+                                        <td> ¥2000 </td>
+                                        <td> ¥1000 </td>
+                                        <td> 10 </td>
+                                    </tr>
+                                    <tr>
+                                        <td> 2 </td>
+                                        <td> 如家 </td>
+                                        <td> ¥2000 </td>
+                                        <td> ¥1000 </td>
+                                        <td> 10 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- 代理商首页  -->
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr>
+                                        <th> # </th>
+                                        <th> 房间号 </th>
+                                        <th> 收入金额 </th>
+                                        <th> 分成金额 </th>
+                                        <th> 设备数 </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> 1 </td>
+                                        <td> 001 </td>
+                                        <td> ¥2000 </td>
+                                        <td> ¥1000 </td>
+                                        <td> 10 </td>
+                                    </tr>
+                                    <tr>
+                                        <td> 2 </td>
+                                        <td> 002 </td>
+                                        <td> ¥2000 </td>
+                                        <td> ¥1000 </td>
+                                        <td> 10 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- END SAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+        </div>
     </script>
     <!-- VR首页  结束-->
 
-    <!-- VR首页  开始-->
+    <!-- VR订单  开始-->
+    <script type="text/ng-template" id="vr_order.html">
+        <div data-ng-controller="OrderListController as orderListVm">
+            <time-bar conf="orderListVm.directives.timeOptCfg"></time-bar>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                    <div class="portlet light ">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <span class="caption-subject font-green bold uppercase"> 订单管理 </span>
+                            </div>
+                            <div class="actions">
+                                <span class="caption-subject font-green uppercase">实收金额：¥25.00</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group pull-right">
+                                            <input class="form-control input-medium pull-left margin-right-10" id="" placeholder="请输入微信名进行搜索">
+                                            <button class="btn green border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                                            <a data-toggle="modal" href="#filter" class="btn green btn-outline border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;筛&nbsp;&nbsp;选&nbsp;&nbsp;</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr>
+                                        <th> # </th>
+                                        <th> 微信名 </th>
+                                        <th> 起止时间 </th>
+                                        <th> 实收金额 </th>
+                                        <th> 消费地点 </th>
+                                        <th> 设备号 </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> 1 </td>
+                                        <td> 阿里巴巴 </td>
+                                        <td>
+                                            <div>起：2017-04-05 12：00</div>
+                                            <div>止：2017-04-05 14：00</div>
+                                        </td>
+                                        <td> ¥20.00 </td>
+                                        <td> 大连-汉庭酒店 </td>
+                                        <td> 123489 </td>
+                                    </tr>
+                                    <tr>
+                                        <td> 2 </td>
+                                        <td> 四十大盗 </td>
+                                        <td>
+                                            <div>起：2017-04-05 12：00</div>
+                                            <div>止：2017-04-05 14：00</div>
+                                        </td>
+                                        <td> ¥5.00 </td>
+                                        <td> 大连-如家酒店 </td>
+                                        <td> 123409 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- END SAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+
+        </div>
+    </script>
+    <!-- VR订单  结束-->
+
+    <!-- VR设备管理  开始-->
+    <script type="text/ng-template" id="vr_dev.html">
+        <div class="row" data-ng-controller="DevListController as devListVm">
+            <div class="col-md-12">
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span class="caption-subject font-green bold uppercase"> 设备管理 </span>
+                        </div>
+                        <div class="actions">
+                            <a data-toggle="modal" href="#add-equipment" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新增设备&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group pull-right">
+                                        <input class="form-control input-medium pull-left margin-right-10" id="" placeholder="请输入房间号、二维码编号、设备号">
+                                        <button class="btn green border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                                        <a data-toggle="modal" href="#filter" class="btn green btn-outline border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;筛&nbsp;&nbsp;选&nbsp;&nbsp;</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr>
+                                    <th> # </th>
+                                    <th> 房间号 </th>
+                                    <th> 二维码编号 </th>
+                                    <th> 设备号 </th>
+                                    <th> 价格 </th>
+                                    <th> 添加时间 </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> 汉庭酒店-001 </td>
+                                    <td> 12345678 </td>
+                                    <td> 123459 </td>
+                                    <td> 20元／时、50元／3小时 </td>
+                                    <td> 2017-04-05 12：30 </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- VR设备管理  结束-->
+
+    <!-- VR二维码  开始-->
+    <script type="text/ng-template" id="vr_qrcode.html">
+        <div class="row" data-ng-controller="QrcodeListController as qrcodeListVm">
+            <div class="col-md-12">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span class="caption-subject font-green bold uppercase"> 二维码管理 </span>
+                        </div>
+                        <div class="actions">
+                            <a data-toggle="modal" href="#add-QR-code" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr>
+                                    <th> # </th>
+                                    <th> 时间 </th>
+                                    <th> 数量 </th>
+                                    <th> 备注 </th>
+                                    <th> 操作 </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> 2017-04-05 12：30 </td>
+                                    <td> 1000 </td>
+                                    <td> </td>
+                                    <td>
+                                        <a href="#">下载</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- VR二维码  结束-->
+
+    <!-- VR代理商  开始-->
+    <script type="text/ng-template" id="vr_agent.html">
+        <div class="row" data-ng-controller="AgentListController as agentListVm">
+            <div class="col-md-12">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span class="caption-subject font-green bold uppercase"> 代理商管理 </span>
+                        </div>
+                        <div class="actions">
+                            <a data-toggle="modal" href="#add-agent" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group pull-right">
+                                        <input class="form-control input-medium pull-left margin-right-10" id="" placeholder="请输入名称进行搜索">
+                                        <button class="btn green border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                                        <a data-toggle="modal" href="#filter-agent" class="btn green btn-outline border-radius-5 pull-left margin-right-15">&nbsp;&nbsp;筛&nbsp;&nbsp;选&nbsp;&nbsp;</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 agent_manage">添加下级代理商后，由代理商所管理的酒店产生的金额，将按照分成比例给与代理商</div>
+
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr>
+                                    <th> # </th>
+                                    <th> 名称 </th>
+                                    <th> 手机号 </th>
+                                    <th> 分成比例 </th>
+                                    <th> 设备数 </th>
+                                    <th> 备注 </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> 大连 张三 </td>
+                                    <td> 15428283232 </td>
+                                    <td> 10% </td>
+                                    <td> 20 </td>
+                                    <td> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- VR代理商  结束-->
+
+    <!-- VR酒店  开始-->
+    <script type="text/ng-template" id="vr_hotel.html">
+        <div class="row" data-ng-controller="HotelListController as hotelListVm">
+            <div class="col-md-12">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span class="caption-subject font-green bold uppercase"> 酒店管理 </span>
+                        </div>
+                        <div class="actions">
+                            <a data-toggle="modal" href="#add-hotel" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group pull-right">
+                                        <input class="form-control input-medium pull-left margin-right-10" id="" placeholder="请输入名称进行搜索">
+                                        <button class="btn green border-radius-5 pull-left margin-right-15">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 agent_manage">添加酒店后，由酒店内设备产生的金额，将按照分成比例给与酒店（PS:酒店分成金额将从代理商收入内扣除）</div>
+
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr>
+                                    <th> # </th>
+                                    <th> 名称 </th>
+                                    <th> 手机号 </th>
+                                    <th> 分成比例 </th>
+                                    <th> 设备数 </th>
+                                    <th> 价格 </th>
+                                    <th> 备注 </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> 如家 </td>
+                                    <td> 15428283232 </td>
+                                    <td> 10% </td>
+                                    <td> 20 </td>
+                                    <td> 20元／时、50元／3小时 </td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td> 2 </td>
+                                    <td> 汉庭 </td>
+                                    <td> 15428283232 </td>
+                                    <td> 10% </td>
+                                    <td> 20 </td>
+                                    <td>
+                                        <a data-toggle="modal" href="#set-price">价格设置</a>
+                                    </td>
+                                    <td> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- VR酒店  结束-->
+
+    <!-- VR广告  开始-->
+    <script type="text/ng-template" id="vr_adv.html">
+        <div class="row" data-ng-controller="AdvListController as orderListVm">
+            <div class="col-md-12">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span class="caption-subject font-green bold uppercase"> 广告管理 </span>
+                        </div>
+                        <div class="actions">
+                            <a data-toggle="modal" href="#add-ad" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr>
+                                    <th> # </th>
+                                    <th> 图片 </th>
+                                    <th> 发布时间 </th>
+                                    <th> 发布区域 </th>
+                                    <th> 备注 </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td>
+                                        <img src="../assets/pages/media/profile/profile_user.jpg" class="img-thumbnail" alt="" data-toggle="modal" href="#LookImg" style="width: 150px; height: 150px;">
+                                    </td>
+                                    <td> 2017-04-20 12：30 </td>
+                                    <td> 全局 </td>
+                                    <td> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- VR广告  结束-->
+
+    <!-- VR信息  开始-->
+    <script type="text/ng-template" id="vr_info.html">
+        <div calss="row" data-ng-controller="InfoController as infoVm">
+            <div class="col-md-12">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption ">
+                            <span class="caption-subject font-green bold uppercase">信息管理</span>
+                        </div>
+
+                        <ul class="nav nav-tabs ">
+                            <li class="active"><a href="#tab_1_1_1" data-toggle="tab" aria-expanded="false"> 基本信息 </a></li>
+                            <li class=""><a href="#tab_1_1_2" data-toggle="tab" aria-expanded="false"> 修改密码 </a></li>
+                        </ul>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1_1_1">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">名称：</label>
+                                                <div class="col-md-9">
+                                                    <input class="form-control input-medium" placeholder="如家酒店">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">位置：</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control input-small pull-left margin-right-10">
+                      <option>省</option>
+                      <option>辽宁</option>
+                      <option>广东</option>
+                      <option>北京</option>
+                    </select>
+                                                    <select class="form-control input-small pull-left margin-right-10">
+                      <option>市</option>
+                    </select>
+                                                    <input class="form-control input-medium pull-left " placeholder="详细位置">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">联系人电话：</label>
+                                                <div class="col-md-9">
+                                                    <input class="form-control input-medium" placeholder="请输入联系人电话">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3"></label>
+                                                <div class="col-md-9">
+                                                    <button class="btn green border-radius-5">&nbsp;&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="tab-pane " id="tab_1_1_2">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">初始密码：</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control input-medium" placeholder="请输入初始密码">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">新密码：</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control input-medium" placeholder="请输入新密码">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">再次输入：</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control input-medium" placeholder="请再次输入密码">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3"></label>
+                                        <div class="col-md-9">
+                                            <button class="btn green border-radius-5">&nbsp;&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- VR信息  结束-->
+
+
+    <!-- VR模版  开始-->
     <script type="text/ng-template" id="temp.html">
-
+        <div data-ng-controller="OrderListController as advListVm">
+        </div>
     </script>
-    <!-- VR首页  结束-->
+    <!-- VR模版  结束-->
 
 
 
@@ -90,7 +717,7 @@
     <script type="text/ng-template" id="vr_sidebar.html">
         <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu page-sidebar-menu-compact" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
             <li class="nav-item start active">
-                <a href="index.html" class="nav-link nav-toggle">
+                <a href="#/index.html" class="nav-link nav-toggle">
                     <i class="icon-users"></i>
                     <div class="title">首页</div>
                     <span class="selected"></span>
@@ -98,14 +725,14 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href=" order_manage.html" class="nav-link nav-toggle">
+                <a href="#/order.html" class="nav-link nav-toggle">
                     <i class="icon-user-following"></i>
                     <span class="title">订单管理</span>
                     <span class="arrow"></span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="equipment_manage.html" class="nav-link nav-toggle">
+                <a href="#/dev.html" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">设备管理</span>
                     <span class="arrow"></span>
@@ -113,14 +740,14 @@
             </li>
             <% if(userType=='USER_TYPE_ADMIN'){%>
                 <li class="nav-item">
-                    <a href=" QR_code_manage.html" class="nav-link nav-toggle">
+                    <a href="#/qrcode.html" class="nav-link nav-toggle">
                         <i class="icon-bulb"></i>
                         <span class="title">二维码管理</span>
                         <span class="arrow"></span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href=" agent_manage.html" class="nav-link nav-toggle">
+                    <a href="#/agent.html" class="nav-link nav-toggle">
                         <i class="icon-notebook"></i>
                         <span class="title">代理商管理</span>
                         <span class="arrow"></span>
@@ -129,7 +756,7 @@
                 <%}%>
 
                     <li class="nav-item">
-                        <a href=" hotel_manage.html" class="nav-link nav-toggle">
+                        <a href="#/hotel.html" class="nav-link nav-toggle">
                             <i class="icon-globe"></i>
                             <span class="title">酒店管理</span>
                             <span class="arrow"></span>
@@ -138,7 +765,7 @@
                     <% if(userType=='USER_TYPE_ADMIN'){%>
 
                         <li class="nav-item">
-                            <a href=" ad_manage.html" class="nav-link nav-toggle">
+                            <a href="#/adv.html" class="nav-link nav-toggle">
                                 <i class="icon-credit-card"></i>
                                 <span class="title">广告管理</span>
                                 <span class="arrow"></span>
@@ -147,14 +774,14 @@
 
                         <%}%>
                             <li class="nav-item">
-                                <a href=" information_manage.html" class="nav-link nav-toggle">
+                                <a href="#/info.html" class="nav-link nav-toggle">
                                     <i class="icon-settings"></i>
                                     <span class="title">信息管理</span>
                                     <span class="arrow"></span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href=" login.html" class="nav-link nav-toggle">
+                                <a href="logout" class="nav-link nav-toggle">
                                     <i class=" icon-logout"></i>
                                     <span class="title">退出</span>
                                     <span class="arrow"></span>

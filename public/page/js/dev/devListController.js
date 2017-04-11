@@ -1,21 +1,22 @@
+/**
+ * 描述:js模板
+ */
 (function() {
     angular
         .module("vrApp")
-        .controller('IndexController', IndexController);
+        .controller('DevListController', DevListController);
 
-    IndexController.$inject = ['$scope'];
+    DevListController.$inject = ['$scope'];
 
-    function IndexController($scope) {
-        var indexVm = this,
+    function DevListController($scope) {
+        var devListVm = this,
             curIndex = -1,
             dateTimeType = 'curmonth',
             _t = vrHelper.getDateTimeByType(dateTimeType),
             urls = {};
 
-
-        indexVm.loading = false;
-
-        indexVm.directives = {
+        devListVm.loading = false;
+        devListVm.directives = {
             timeOptCfg: {
                 vm: {
                     timeArr: ['today', 'yestoday', 'curmonth', 'prevmonth', 'other'],
@@ -28,7 +29,7 @@
                 }
             }
         };
-        indexVm.page = {
+        devListVm.page = {
             vm: {
 
             },
