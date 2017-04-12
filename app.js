@@ -2,7 +2,8 @@ var path = require('path');
 var express = require('express');
 var session = require('express-session');
 var _ = require('lodash');
-//require('./models/mongo');
+var bodyParser = require('body-parser');
+var compression = require('compression');
 require('./models/mysql');
 var webRouter = require('./web_router');
 
@@ -16,6 +17,19 @@ var staticDir = path.join(__dirname, 'public');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('.html', require('ejs').__express);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(compression());
+
+app.use(session({
+    secret: config.session_secret,
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: config.session_timeout
+    }
+}));
 
 app.use('/public', express.static(staticDir));
 app.use('/', webRouter);

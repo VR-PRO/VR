@@ -40,6 +40,8 @@ var config = {
         port: 6379,
         db: 0,
         password: '123456'
-    }
+    },
+    session_secret: 'vr_session_secret_key',
+    session_timeout: 1000 * 60 * 10, //10分钟失效
 };
 module.exports = config;

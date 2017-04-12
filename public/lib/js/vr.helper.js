@@ -192,6 +192,10 @@ var vrHelper = (function() {
             } //get end
     };
 
+    var validate = {
+
+    };
+
 
     return {
         maxValue: constants.maxValue,
