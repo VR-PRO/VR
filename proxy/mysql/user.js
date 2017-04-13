@@ -8,6 +8,7 @@ var User = models.User;
 
 exports.getUserByMobile = function(mobile, callback) {
     User.findOne({ where: { mobile: mobile } }).then(function(user) {
-        callback(user);
+        var　res = user&&user.dataValues?user.dataValues:null;
+        callback(res);
     });
 };

@@ -13,9 +13,12 @@ router.all('*', auth.loginReq);
 router.get('/v_login', site.v_login);
 router.post('/do', site.login);
 //登出路由
-router.get('/v_logout', site.v_logout);
+router.get('/logout', site.v_logout);
 //首页
 router.get('/', site.index);
+
+//上传图片
+router.post('/common/img/upload');
 
 
 module.exports = router;
