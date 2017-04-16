@@ -192,8 +192,15 @@ var vrHelper = (function() {
             } //get end
     };
 
-    var validate = {
+    var regex = {
+        mobile: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/,
+        pwd: /^[a-zA-Z0-9]{8,20}$/,
+        number: /^[0-9]*$/,
+    };
 
+    var validate = {
+        mobile: function(v) { return regex.mobile.test(v); },
+        pwd: function(v) { return regex.pwd.test(v); },
     };
 
 
@@ -213,6 +220,11 @@ var vrHelper = (function() {
         },
 
         staticPer: constants.staticPer,
+
+        validate: {
+            mobile: validate.mobile,
+            pwd: validate.pwd
+        }
 
     };
 

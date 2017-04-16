@@ -321,11 +321,10 @@
                             <span class="caption-subject font-green bold uppercase"> 设备管理 </span>
                         </div>
                         <div class="actions">
-                            <a data-toggle="modal" href="#add-equipment" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新增设备&nbsp;&nbsp;</a>
+                            <a ng-click='devListVm.page.event.saveDevModalView()' class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新增设备&nbsp;&nbsp;</a>
                         </div>
                     </div>
                     <div class="portlet-body">
-
                         <div class="row">
                             <div class="col-md-12">
                                 <form class="form-horizontal" role="form">
@@ -345,24 +344,64 @@
                                     <th> 房间号 </th>
                                     <th> 二维码编号 </th>
                                     <th> 设备号 </th>
-                                    <th> 价格 </th>
                                     <th> 添加时间 </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td> 1 </td>
-                                    <td> 汉庭酒店-001 </td>
-                                    <td> 12345678 </td>
-                                    <td> 123459 </td>
-                                    <td> 20元／时、50元／3小时 </td>
-                                    <td> 2017-04-05 12：30 </td>
+                                <tr ng-repeat='item in devListVm.page.vm.list'>
+                                    <td> {{$index + 1}} </td>
+                                    <td> {{item.roomNum}} </td>
+                                    <td> {{item.qrcodes||''}} </td>
+                                    <td> {{item.devCode}} </td>
+                                    <td> {{item.created.substr(0,16)}} </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade draggable-modal ui-draggable" id="divDevSaveModal" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header ui-draggable-handle">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title"> 新增设备 </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">房间号：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" maxlength='30' autocomplete='off' placeholder="请输入房间号" ng-model='devListVm.page.vm.save.roomNum'>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-repeat="item in devListVm.page.vm.save.qrcodeList">
+                                    <label class="control-label col-md-3">二维码编号：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium pull-left" placeholder="请输入二维码编号与设备绑定" ng-model='item.qrcode' maxlength='20' autocomplete='off'>
+                                        <div class="add_equipment pull-left" ng-click='devListVm.page.event.qrcodeCreate()' ng-if="$last"><i class="fa fa-plus-square"></i></div>
+                                        <div class="add_equipment pull-left" ng-click='devListVm.page.event.qrcodeRemove($index)' ng-if="!$last"><i class="fa fa-minus-square"></i></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">设备号：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入设备号进行绑定" ng-model='devListVm.page.vm.save.devCode' maxlength='20' autocomplete='off'>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button ng-disabled='devListVm.loading' ng-readonly='devListVm.loading' ng-click='devListVm.page.event.save()' type="button" class="btn green">&nbsp;&nbsp;&nbsp;&nbsp;确定&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="button" class="btn default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </script>
     <!-- VR设备管理  结束-->
@@ -422,7 +461,7 @@
                             <span class="caption-subject font-green bold uppercase"> 代理商管理 </span>
                         </div>
                         <div class="actions">
-                            <a data-toggle="modal" href="#add-agent" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
+                            <a ng-click="agentListVm.page.event.agentSaveModalView()" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
                         </div>
                     </div>
                     <div class="portlet-body">
@@ -467,6 +506,57 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="modal fade draggable-modal ui-draggable" id="agentSaveModal" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header ui-draggable-handle">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title"> 新增代理商 </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">名称：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入名称" maxlength='50' ng-model='agentListVm.page.vm.save.name'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">手机号：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入手机号" maxlength='11' ng-model='agentListVm.page.vm.save.mobile'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">分成比例：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入分成比例" maxlength='3' ng-model='agentListVm.page.vm.save.rate'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">备注：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入备注" maxlength='140' ng-model='agentListVm.page.vm.save.remark'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">初始密码：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入初始密码" maxlength='30' ng-model='agentListVm.page.vm.save.pwd'>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn green">&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="button" class="btn default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </script>
     <!-- VR代理商  结束-->
@@ -754,9 +844,6 @@
     </script>
     <!-- VR模版  结束-->
 
-
-
-
     <!-- 顶部模板 开始 -->
     <script type="text/ng-template" id="vr_header.html">
         <div class="page-header-inner">
@@ -795,7 +882,7 @@
                 </a>
             </li>
             <% if(userType=='USER_TYPE_ADMIN'){%>
-                <li class="nav-item">
+                <li class="nav-item " style='display:none;'>
                     <a href="#/qrcode.html" class="nav-link nav-toggle">
                         <i class="icon-bulb"></i>
                         <span class="title">二维码管理</span>
