@@ -24,6 +24,7 @@ var vrHelper = (function() {
      */
     var methods = {
         debug: function(key, obj) {
+            isDebug = true;
             if (isDebug) {
                 if (obj) {
                     console.group(key + "  -  日志");
@@ -52,11 +53,6 @@ var vrHelper = (function() {
                     error();
                 }
             } else {
-                var httpIndex = url.indexOf('http://');
-                if (httpIndex == -1) {
-                    url = mtPath + url;
-                }
-
                 var obj = {
                     type: (type || 'POST'),
                     url: url,
@@ -88,7 +84,7 @@ var vrHelper = (function() {
                                 success(json);
                             }
                         } else {
-                            message.error(msg.join(''));
+                            message.error(json.msg);
                             error && error(json);
                         }
                     },
@@ -201,6 +197,7 @@ var vrHelper = (function() {
     var validate = {
         mobile: function(v) { return regex.mobile.test(v); },
         pwd: function(v) { return regex.pwd.test(v); },
+        number: function(v) { return regex.number.test(v); },
     };
 
 
@@ -223,7 +220,8 @@ var vrHelper = (function() {
 
         validate: {
             mobile: validate.mobile,
-            pwd: validate.pwd
+            pwd: validate.pwd,
+            number: validate.number,
         }
 
     };
