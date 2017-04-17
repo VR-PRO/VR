@@ -563,7 +563,7 @@
 
     <!-- VR酒店  开始-->
     <script type="text/ng-template" id="vr_hotel.html">
-        <div class="row" data-ng-controller="HotelListController as hotelListVm">
+        <div class="row" data-ng-controller="HotelListController as hotelListVm" id='hotelPageLoadId'>
             <div class="col-md-12">
                 <div class="portlet light ">
                     <div class="portlet-title">
@@ -571,7 +571,7 @@
                             <span class="caption-subject font-green bold uppercase"> 酒店管理 </span>
                         </div>
                         <div class="actions">
-                            <a data-toggle="modal" href="#add-hotel" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
+                            <a ng-click="hotelListVm.page.event.hotelSaveModalView()" class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
                         </div>
                     </div>
                     <div class="portlet-body">
@@ -580,14 +580,14 @@
                             <div class="col-md-12">
                                 <form class="form-horizontal" role="form">
                                     <div class="form-group pull-right">
-                                        <input class="form-control input-medium pull-left margin-right-10" placeholder="请输入名称进行搜索">
-                                        <button class="btn green border-radius-5 pull-left margin-right-15">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                                        <input ng-model='hotelListVm.page.vm.top.name' class="form-control input-medium pull-left margin-right-10" placeholder="请输入名称进行搜索">
+                                        <button ng-disabled='hotelListVm.loading' ng-readonly='hotelListVm.loading' ng-click='hotelListVm.page.event.rearch()' class="btn green border-radius-5 pull-left margin-right-15">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
 
-                        <div class="col-md-12 agent_manage">添加酒店后，由酒店内设备产生的金额，将按照分成比例给与酒店（PS:酒店分成金额将从代理商收入内扣除）</div>
+                        <div class="col-md-12 agent_manage hide">添加酒店后，由酒店内设备产生的金额，将按照分成比例给与酒店（PS:酒店分成金额将从代理商收入内扣除）</div>
 
                         <table class="table table-hover table-light">
                             <thead>
@@ -597,37 +597,82 @@
                                     <th> 手机号 </th>
                                     <th> 分成比例 </th>
                                     <th> 设备数 </th>
-                                    <th> 价格 </th>
-                                    <th> 备注 </th>
+                                    <th style='width: 20%;'> 备注 </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td> 1 </td>
-                                    <td> 如家 </td>
-                                    <td> 15428283232 </td>
-                                    <td> 10% </td>
-                                    <td> 20 </td>
-                                    <td> 20元／时、50元／3小时 </td>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-                                    <td> 2 </td>
-                                    <td> 汉庭 </td>
-                                    <td> 15428283232 </td>
-                                    <td> 10% </td>
-                                    <td> 20 </td>
-                                    <td>
-                                        <a data-toggle="modal" href="#set-price">价格设置</a>
-                                    </td>
-                                    <td> </td>
+                                <tr ng-repeat='item in hotelListVm.page.vm.list'>
+                                    <td> {{$index + 1}} </td>
+                                    <td> {{item.name}} </td>
+                                    <td> {{item.mobile}} </td>
+                                    <td> {{item.rate}}% </td>
+                                    <td> {{item.devCnt||0}} </td>
+                                    <td> {{item.remark||''}} </td>
                                 </tr>
                             </tbody>
                         </table>
 
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <tm-pagination conf="hotelListVm.pageCfg"></tm-pagination>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+
+
+            <div class="modal fade draggable-modal ui-draggable" id="hotelSaveModal" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header ui-draggable-handle">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title"> 新增代理商 </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">名称：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入名称" maxlength='50' ng-model='hotelListVm.page.vm.save.name'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">手机号：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入手机号" maxlength='11' ng-model='hotelListVm.page.vm.save.mobile'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">分成比例：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入分成比例" maxlength='3' ng-model='hotelListVm.page.vm.save.rate'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">备注：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入备注" maxlength='140' ng-model='hotelListVm.page.vm.save.remark'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">初始密码：</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control input-medium" placeholder="请输入初始密码" maxlength='30' ng-model='hotelListVm.page.vm.save.pwd'>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer" id='hotelSaveLoadId'>
+                            <button ng-disabled='hotelListVm.loading' ng-readonly='hotelListVm.loading' ng-click='hotelListVm.page.event.save()' type="button" class="btn green">&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="button" class="btn default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </script>
     <!-- VR酒店  结束-->

@@ -18,7 +18,7 @@
 
         var opt = {
             agentSaveModalView: function() {
-                _.forEach(agentListVm.page.vm.save, function(key) {
+                _.forEach(agentListVm.page.vm.save, function(value, key) {
                     agentListVm.page.vm.save[key] = '';
                 });
 

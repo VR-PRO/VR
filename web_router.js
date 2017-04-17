@@ -9,6 +9,8 @@ var site = require('./controllers/site');
 var dev = require('./controllers/dev');
 var user = require('./controllers/user');
 var agent = require('./controllers/agent');
+var hotel = require('./controllers/hotel');
+
 
 //路由过滤器
 router.all('*', auth.loginReq);
@@ -33,6 +35,10 @@ router.post('/user/check', user.check);
 //agent 路由
 router.post('/agent/save', agent.save);
 router.post('/agent/list', agent.list);
+
+//hotel 路由
+router.post('/hotel/save', hotel.save);
+router.post('/hotel/list', hotel.list);
 
 
 module.exports = router;

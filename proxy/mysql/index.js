@@ -5,5 +5,5 @@
 var Adv = require("./adv.js");
 
 exports.Adv = {
-    save:Adv.save
+    save: Adv.save
 };
