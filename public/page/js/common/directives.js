@@ -507,3 +507,13 @@ vrApp.directive('timeBar', [function() {
         }
     };
 }]);
+
+vrApp.directive('comUploadFileChange', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var onChangeFunc = scope.$eval(attrs.comUploadFileChange);
+            element.bind('change', onChangeFunc);
+        }
+    };
+});

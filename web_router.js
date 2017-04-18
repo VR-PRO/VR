@@ -4,12 +4,18 @@
 'use strict'
 var express = require('express');
 var auth = require('./middlewares/auth');
+
 var router = express.Router();
+
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 var site = require('./controllers/site');
 var dev = require('./controllers/dev');
 var user = require('./controllers/user');
 var agent = require('./controllers/agent');
 var hotel = require('./controllers/hotel');
+var adv = require('./controllers/adv');
+var common = require('./controllers/common');
 
 
 //路由过滤器
@@ -23,7 +29,7 @@ router.get('/logout', site.v_logout);
 router.get('/', site.index);
 
 //上传图片
-router.post('/common/img/upload');
+router.post('/common/img/upload', multipartMiddleware, common.uploadImg);
 
 
 //设备的新增加
@@ -39,6 +45,10 @@ router.post('/agent/list', agent.list);
 //hotel 路由
 router.post('/hotel/save', hotel.save);
 router.post('/hotel/list', hotel.list);
+
+//adv 路由
+router.post('/adv/save', adv.save);
+router.post('/adv/list', adv.list);
 
 
 module.exports = router;

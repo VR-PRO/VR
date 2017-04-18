@@ -1,15 +1,15 @@
 /**
  * 第三方处理
  */
-
 var qiniu = require('qiniu');
 var fs = require("fs");
 var qnCfg = require("../config").qn_access;
 
+qiniu.conf.ACCESS_KEY = qnCfg.accessKey;
+qiniu.conf.SECRET_KEY = qnCfg.secretKey;
+
 exports.uploadImg = function(req, res, next) {
-
-    
-
+    var filePath = req.files.file.path;
     var putPolicy = new qiniu.rs.PutPolicy(qnCfg.bucket);
     var extra = new qiniu.io.PutExtra();
     var token = putPolicy.token();
@@ -21,12 +21,12 @@ exports.uploadImg = function(req, res, next) {
                         fs.unlink(filePath, function() {});
                     }
                 });
-                success(_res);
+                res.json({result:1,msg:'',data:{imgCode:_res.hash}});
             } else {
-                error(err);
+                res.json({result:0,msg:'',data:{}});
             }
         });
     } catch (ex) {
-        error(ex);
+        next(ex);
     }
 };

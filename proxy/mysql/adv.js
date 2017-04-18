@@ -4,21 +4,20 @@
 var models = require('../../models/mysql');
 
 var Adv = models.Adv;
-var AdvImg = models.AdvImg;
 
-exports.save = function (scope,imgList,callback) {
-    return models.sequelize.transaction(function (t) {
-        return Adv.create({scope:scope},{transaction: t}).then(function (adv) {
-            var tempCommitArr = [];
-            _.forEach(imgList,function (img) {
-              tempCommitArr.push({imgCode:img.imgCode,status:1,advId:adv.id});
-            });
-           return AdvImg.bulkCreate(tempCommitArr,{transaction: t});
-        });
-    }).then(function (result) {
-        callback(null,result);
-    }).catch(function (err) {
-        callback(err,null);
+exports.save = function(_adv, callback) {
+    return Adv.create({
+        scope: _adv.scope,
+        img: _adv.img,
+        remark: _adv.remark,
+        sort: _adv.sort,
+    }).then(function(result) {
+        callback(null, result);
     });
 }
 
+exports.list = function(callback) {
+    return Adv.findAll({ order: 'sort DESC' }).then(function(result) {
+        callback(null, result);
+    });
+}

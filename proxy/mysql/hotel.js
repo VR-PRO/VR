@@ -1,6 +1,7 @@
 var models = require('../../models/mysql');
 
 var Hotel = models.Hotel;
+var AgentHotel = models.AgentHotel;
 
 exports.save = function(_hotel, callback) {
     return models.sequelize.transaction(function(t) {
@@ -9,7 +10,13 @@ exports.save = function(_hotel, callback) {
             mobile: _hotel.mobile,
             rate: _hotel.rate,
             remark: _hotel.remark,
-        }, { transaction: t });
+        }, { transaction: t }).then(function(hotel) {
+            return AgentHotel.create({
+                agentId: _hotel.agentId,
+                hotelId: hotel.hotelId
+            }, { transaction: t });
+        });
+
     }).then(function(hotel) {
         var res = hotel && hotel.dataValues ? hotel.dataValues : null;
         callback(null, hotel);

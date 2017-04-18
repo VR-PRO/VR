@@ -45,7 +45,7 @@
                 var mobile = vrHelper.cookie.get("_vr_pc_account_cookie_");
                 if (mobile) {
                     inputUserName.val(mobile);
-                    inputUserName.focus();
+                    inputPassword.focus();
                 }
                 var inputErrorMsgStr = $.trim(inputErrorMsg.val());
                 inputErrorMsgStr && message.error(inputErrorMsgStr);
