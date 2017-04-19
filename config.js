@@ -27,10 +27,10 @@ var config = {
      *七牛 上传配置
      * */
     qn_access: {
-        accessKey: '5gJLmQMxqpkxFyc3jJiemQ1JjOR3dUU_VlqatEt0',
-        secretKey: 'P3yUtNmXhXCrK13KZCbS7PYWC87nXvEEycuVyf3N',
-        bucket: 'vrimgs',
-        origin: 'http://oo1rx8l2w.bkt.clouddn.com'
+        accessKey: '9yN3_02PLEYcWVquQCBdpyuGX4OXTahRGYXbJ6uo',
+        secretKey: 'x3T6ANzr12rV7qvtnYGkbYhSnNBKR7lA3wPtnhJY',
+        bucket: 'vrpro',
+        origin: 'http://oomrprje8.bkt.clouddn.com'
     },
     /*
      * redis 配置

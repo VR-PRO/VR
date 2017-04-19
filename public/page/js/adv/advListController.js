@@ -19,7 +19,19 @@
         advListVm.loading = false;
 
         var opt = {
+            viewLargeImgModal: function(imgCode) {
+                advListVm.page.vm.largeImgUrl = imgCode;
+                $("#viewLargeImgModal").modal('show');
+            },
             viewAdvSaveModal: function() {
+                if (advListVm.page.vm.list.length == 5) {
+                    message.error('最多添加5条广告信息.');
+                    return false;
+                }
+                $("#uploadFormFile").val(null);
+                if ($("#uploadFormFile").val()) {
+                    document.getElementById("uploadForm").reset();
+                }
                 _.forEach(advListVm.page.vm.save, function(value, key) {
                     advListVm.page.vm.save[key] = (key == 'scope') ? '全国' : '';
                 });
@@ -35,7 +47,7 @@
                 var remark = _.trim(advListVm.page.vm.save.remark);
 
                 var data = {
-                    imgCode: imgCode,
+                    img: imgCode,
                     scope: scope,
                 };
                 if (remark) {
@@ -46,6 +58,7 @@
                     message.success('操作成功.');
                     opt.list();
                     advListVm.loading = false;
+                    $("#vrAdvSaveViewModal").modal('hide');
                     $scope.$apply();
                 }, function(err) {
                     advListVm.loading = false;
@@ -56,14 +69,42 @@
             list: function() {
                 vrHelper.jqAjax(urls.adv_list, '', function(res) {
                     var data = res.data;
+                    _.forEach(data, function(item) {
+                        item.created = moment(item.created).format('YYYY-MM-DD HH:mm');
+                    });
                     advListVm.page.vm.list = data || [];
                     $scope.$apply();
                 }, function(err) {}, 'POST', false, 'agentSaveLoadId');
             },
-            comUploadFileChange: function() {
+            comUploadFileChange: function(event) {
+                if (event) {
+                    var filePath = '';
+                    var size = 0;
+                    if (event && event.target && event.target.files) {
+                        var file = event.target.files[0];
+                        size = file.size || 0;
+                        filePath = file.name;
+                    } else {
+                        filePath = $(event.target).val();
+                    }
+
+                    var index = filePath.lastIndexOf('.');
+                    var suffix = filePath.substring(index, filePath.length);
+
+                    if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(suffix)) {
+                        message.error('图片类型必须是.gif,jpeg,jpg,png中的一种');
+                        return false;
+                    }
+
+                    var imgSize = size / 1024 / 1024;
+                    if (imgSize > 2) {
+                        message.error('图片大小超过2M,请上传小于2M的图片.');
+                        return false;
+                    }
+                }
+
                 var formdata = new FormData();
                 formdata.append("file", $("#uploadFormFile")[0].files[0]);
-
                 $.ajax({
                     type: 'POST',
                     url: urls.common_img_upload,
@@ -75,6 +116,12 @@
                         message.success('上传成功.');
                         var imgCode = res.data.imgCode || '';
                         advListVm.page.vm.save.imgCode = imgCode;
+
+                        $("#uploadFormFile").val(null);
+                        if ($("#uploadFormFile").val()) {
+                            document.getElementById("uploadForm").reset();
+                        }
+
                         advListVm.loading = false;
                         $scope.$apply();
                     },
@@ -83,18 +130,6 @@
                         $scope.$apply();
                     }
                 })
-
-                // vrHelper.jqAjax(urls.common_img_upload, formdata, function(res) {
-                //     message.success('上传成功.');
-                //     var imgCode = res.data.imgCode || '';
-                //     advListVm.page.vm.save.imgCode = imgCode;
-                //     advListVm.loading = false;
-                //     $scope.$apply();
-                // }, function(err) {
-                //     advListVm.loading = false;
-                //     $scope.$apply();
-                // }, 'POST', false, 'agentSaveLoadId');
-
             },
             init: function() {
                 opt.list();
@@ -108,12 +143,14 @@
                     imgCode: '',
                     scope: '全国',
                     remark: ''
-                }
+                },
+                largeImgUrl: '',
             },
             event: {
-                viewAdvSaveModal: opt.viewAdvSaveModal, //advListVm.page.event.viewAdvSaveModal
+                viewAdvSaveModal: opt.viewAdvSaveModal,
                 comUploadFileChange: opt.comUploadFileChange,
-                save: opt.save, //advListVm.page.event.save
+                save: opt.save,
+                viewLargeImgModal: opt.viewLargeImgModal,
             }
         };
         opt.init();

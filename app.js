@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 require('./models/mysql');
 var webRouter = require('./web_router');
-
+require('./api/adv');
 var app = express();
 var logger = require('./common/logger');
 var config = require('./config');

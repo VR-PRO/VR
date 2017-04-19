@@ -1,11 +1,10 @@
 var vrHelper = (function() {
     //全局静态变量
     var constants = {
-        //INT 最大值
         maxValue: 2147483647,
-        //周的中文数组
         weeksZhArr: ['一', '二', '三', '四', '五', '六', '日'],
-        staticPer: '/public/page/js', //页面级别的 前缀
+        staticPer: '/public/page/js',
+        qnDomain: 'http://oomrprje8.bkt.clouddn.com/'
     };
 
     /**
@@ -204,6 +203,7 @@ var vrHelper = (function() {
     return {
         maxValue: constants.maxValue,
         weeksZhArr: constants.weeksZhArr,
+        qnDomain: constants.qnDomain,
 
         debug: methods.debug,
         jqAjax: methods.jqAjax,

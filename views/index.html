@@ -692,7 +692,7 @@
                         <div class="caption">
                             <span class="caption-subject font-green bold uppercase"> 广告管理 </span>
                         </div>
-                        <div class="actions">
+                        <div class="actions" ng-if='advListVm.page.vm.list.length<5'>
                             <a ng-click='advListVm.page.event.viewAdvSaveModal()' class="btn green border-radius-5 margin-right-10">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</a>
                         </div>
                     </div>
@@ -711,11 +711,11 @@
                                 <tr ng-repeat='item in advListVm.page.vm.list'>
                                     <td> {{$index + 1}} </td>
                                     <td>
-                                        <img ng-src='{{item.img}}' class="img-thumbnail" style="width: 150px; height: 150px;">
+                                        <img ng-click='advListVm.page.event.viewLargeImgModal(item.img)' ng-src='{{item.img|qnImgUrlFliter}}' class="img-thumbnail" style="width: 150px; height: 150px;cursor:pointer;">
                                     </td>
                                     <td> {{item.created.substr(0,16)}} </td>
                                     <td> {{item.scope}} </td>
-                                    <td> {{item.reamrk||''}}</td>
+                                    <td> {{item.remark||''}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -744,7 +744,7 @@
                                         <div class="col-md-9">
                                             <div class="fileinput fileinput-new " data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                    <img ng-src="">
+                                                    <img ng-src="{{advListVm.page.vm.save.imgCode|qnImgUrlFliter}}">
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                                                 <div>
@@ -779,6 +779,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="viewLargeImgModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <img ng-src="{{advListVm.page.vm.largeImgUrl|qnImgUrlFliter}}" class="img-thumbnail" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </script>

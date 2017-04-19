@@ -27,7 +27,11 @@ exports.save = function(req, res, next) {
 };
 //列表
 exports.list = function(req, res, next) {
-    Adv.list(function(result) {
-        res.json({ result: 1, msg: '', data: result });
+    Adv.list(function(error, result) {
+        if (error) {
+            res.json({ result: 0, msg: '', data: {} });
+        } else {
+            res.json({ result: 1, msg: '', data: result });
+        }
     });
 };
