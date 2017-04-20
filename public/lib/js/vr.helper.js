@@ -92,8 +92,9 @@ var vrHelper = (function() {
                             error(jqXHR);
                         }
                         try {
-                            //session 失效的处理
-                            //没有权限的处理
+                            if (jqXHR.responseText && jqXHR.responseText.indexOf('请登录系统') >= 0) {
+                                window.location.href = '/v_login';
+                            }
                         } catch (ex) {
                             message.error("后端错误.");
                         }

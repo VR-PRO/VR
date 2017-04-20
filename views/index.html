@@ -629,7 +629,7 @@
                     <div class="modal-content">
                         <div class="modal-header ui-draggable-handle">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                            <h4 class="modal-title"> 新增代理商 </h4>
+                            <h4 class="modal-title"> 新增酒店 </h4>
                         </div>
                         <div class="modal-body">
                             <form class="form-horizontal" role="form">
@@ -734,14 +734,14 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                                 <h4 class="modal-title"> 新增广告 </h4>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" id='advUploadImgLoadId'>
                                 <form class="form-horizontal" role="form" id='uploadForm'>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">图片上传：</label>
                                         <div class="col-md-9">
                                             <div class="fileinput fileinput-new " data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                    <img ng-src="{{advListVm.page.vm.save.imgCode|qnImgUrlFliter}}">
+                                                    <img ng-src='{{advListVm.page.vm.save.imgCode|qnImgUrlFliter}}' class='ds' data='mg'>
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                                                 <div>
@@ -806,7 +806,7 @@
                             <!--<li class=""><a href="#tab_1_1_2" data-toggle="tab" aria-expanded="false"> 修改密码 </a></li>-->
                         </ul>
                     </div>
-                    <div class="portlet-body">
+                    <div class="portlet-body" id='baseInfoLoad'>
                         <div class="tab-content">
                             <div class="tab-pane active">
                                 <div class="row">
@@ -815,7 +815,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">名称：</label>
                                                 <div class="col-md-9">
-                                                    <input class="form-control input-medium" placeholder="" ng-model='baseVm.name'>
+                                                    <input class="form-control input-medium" placeholder="" ng-model='baseVm.page.vm.name' maxlength='200'>
                                                 </div>
                                             </div>
 
@@ -827,19 +827,19 @@
                                                     <select data-ng-model="baseVm.page.vm.curCity" data-ng-options="m.id as m.text for m in baseVm.page.vm.city" class="form-control input-small pull-left margin-right-10">
                                                         <option>市</option>
                                                     </select>
-                                                    <input class="form-control input-medium pull-left " placeholder="详细位置">
+                                                    <input class="form-control input-medium pull-left " placeholder="详细位置" ng-model='baseVm.page.vm.addr' maxlength='255'>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">联系人电话：</label>
                                                 <div class="col-md-9">
-                                                    <input class="form-control input-medium" placeholder="请输入联系人电话">
+                                                    <input class="form-control input-medium" placeholder="请输入联系人电话" ng-model='baseVm.page.vm.mobile' maxlength='11'>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3"></label>
                                                 <div class="col-md-9">
-                                                    <button class="btn green border-radius-5">&nbsp;&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                                    <button ng-disabled='baseVm.loading' ng-readonly='baseVm.loading' ng-click='baseVm.page.event.update()' class="btn green border-radius-5">&nbsp;&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;&nbsp;&nbsp;</button>
                                                 </div>
                                             </div>
                                         </form>

@@ -4,8 +4,9 @@
 module.exports = function(sequelize, Sequelize) {
     return sequelize.define('t_v_agent', {
         name: { type: Sequelize.STRING, field: 'name', comment: '名称' },
-        mobile: { type: Sequelize.STRING, field: 'mobile', comment: '手机号' },
+        mobile: { type: Sequelize.STRING, field: 'mobile', comment: '联系电话' },
         rate: { type: Sequelize.STRING, field: 'rate', comment: '分成比例' },
+        userId: { type: Sequelize.INTEGER, field: 'userId', comment: '所属于那个登录用户的ID' },
         pid: { type: Sequelize.INTEGER, field: 'pid', comment: '省ID' },
         cid: { type: Sequelize.INTEGER, field: 'cid', comment: '城市ID' },
         addr: { type: Sequelize.TEXT, field: 'addr', comment: '详细地址' },

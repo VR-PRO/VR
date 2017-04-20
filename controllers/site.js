@@ -29,7 +29,7 @@ exports.login = function(req, res, next) {
         req.session.login_error = '手机号或密码不可为空';
         res.redirect("/v_login");
     } else {
-        User.getUserByMobile(username, function(_user) {
+        User.getUserByMobile(username, function(error, _user) {
             if (_user) {
                 var passwordMd5 = utils.md5(password, 'base64');
                 if (passwordMd5 != _user.pwd) {
@@ -46,10 +46,10 @@ exports.login = function(req, res, next) {
                             break;
                         case 'USER_TYPE_AGENT':
                             {
-                                Agent.detail(username, function(agent) {
+                                Agent.detail(_user.id, function(error,agent) {
                                     if (agent) {
-                                        _user.agentId = agent.id;
                                         req.session.vr_u = _user;
+                                        req.session.agentId = agent.id;
                                         res.redirect("/");
                                     }
                                 });
@@ -57,7 +57,7 @@ exports.login = function(req, res, next) {
                             break;
                         case 'USER_TYPE_HOTEL':
                             {
-                                Hotel.detail(username, function(hotel) {
+                                Hotel.detail(_user.id, function(error,hotel) {
                                     if (hotel) {
                                         _user.hotelId = hotel.id;
                                         req.session.vr_u = _user;

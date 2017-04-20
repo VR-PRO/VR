@@ -28,13 +28,13 @@
                     message.error('最多添加5条广告信息.');
                     return false;
                 }
+                advListVm.page.vm.save.imgCode = '';
+                advListVm.page.vm.save.scope = '全国';
+                advListVm.page.vm.save.remark = '';
+
                 $("#uploadFormFile").val(null);
-                if ($("#uploadFormFile").val()) {
-                    document.getElementById("uploadForm").reset();
-                }
-                _.forEach(advListVm.page.vm.save, function(value, key) {
-                    advListVm.page.vm.save[key] = (key == 'scope') ? '全国' : '';
-                });
+                document.getElementById("uploadForm").reset();
+
                 $("#vrAdvSaveViewModal").modal('show');
             },
             save: function() {
@@ -102,7 +102,8 @@
                         return false;
                     }
                 }
-
+                vrHelper.block.blockUI('#advUploadImgLoadId');
+                advListVm.loading = true;
                 var formdata = new FormData();
                 formdata.append("file", $("#uploadFormFile")[0].files[0]);
                 $.ajax({
@@ -123,10 +124,12 @@
                         }
 
                         advListVm.loading = false;
+                        vrHelper.block.unblockUI('#advUploadImgLoadId');
                         $scope.$apply();
                     },
                     error: function() {
                         advListVm.loading = false;
+                        vrHelper.block.unblockUI('#advUploadImgLoadId');
                         $scope.$apply();
                     }
                 })

@@ -8,6 +8,7 @@ exports.save = function(_agent, callback) {
             name: _agent.name,
             mobile: _agent.mobile,
             rate: _agent.rate,
+            userId: _agent.userId,
             remark: _agent.remark,
         }, { transaction: t });
     }).then(function(agent) {
@@ -23,23 +24,44 @@ exports.list = function(pageNo, pageSize, name, callback) {
         'limit': pageSize,
         'offset': pageNo - 1
     };
-
-    var w = {};
     if (name) {
+        var w = {};
         w.name = { $like: '%' + name + '%' };
+        opt.where = w;
     }
-    opt.where = w;
     Agent.findAndCountAll(opt).then(function(result) {
-        callback(result);
+        callback(null, result);
+    }).catch(function(err) {
+        callback(err, null);
     });
 }
 
-exports.detail = function(mobile, callback) {
+exports.detail = function(userId, callback) {
     Agent.findOne({
         where: {
-            mobile: mobile
+            userId: userId
         }
     }).then(function(agent) {
-        callback(agent);
+        callback(null, agent);
+    }).catch(function(err) {
+        callback(err, null);
+    });
+}
+
+exports.update = function(agent, callback) {
+    Agent.update({
+        name: agent.name,
+        addr: agent.addr,
+        pid: agent.pid,
+        cid: agent.cid,
+        mobile: agent.mobile,
+    }, {
+        where: {
+            userId: agent.userId
+        }
+    }).then(function(agent) {
+        callback(null, agent);
+    }).catch(function(err) {
+        callback(err, null);
     });
 }

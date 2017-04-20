@@ -40,7 +40,7 @@ exports.baseInfo = function(req, res, next) {
         switch (u.type) {
             case 'USER_TYPE_AGENT':
                 {
-                    Agent.detail(u.mobile, function(agent) {
+                    Agent.detail(u.id, function(error, agent) {
                         if (agent) {
                             res.json({ result: 1, msg: '', data: agent });
                         } else {
@@ -51,7 +51,41 @@ exports.baseInfo = function(req, res, next) {
                 break;
             case 'USER_TYPE_HOTEL':
                 {
-                    Hotel.detail(u.mobile, function(hotel) {
+                    Hotel.detail(u.id, function(error, hotel) {
+                        if (hotel) {
+                            res.json({ result: 1, msg: '', data: hotel });
+                        } else {
+                            res.json({ result: 0, msg: '', data: {} });
+                        }
+                    });
+                }
+                break;
+        }
+    }
+}
+
+exports.baseInfoUpdate = function(req, res, next) {
+    var session = req.session;
+    var mobile = '';
+    var reqData = req.body;
+    if (session && req.session.vr_u) {
+        var u = req.session.vr_u;
+        reqData.userId = u.id;
+        switch (u.type) {
+            case 'USER_TYPE_AGENT':
+                {
+                    Agent.update(reqData, function(error, agent) {
+                        if (agent) {
+                            res.json({ result: 1, msg: '', data: agent });
+                        } else {
+                            res.json({ result: 0, msg: '', data: {} });
+                        }
+                    });
+                }
+                break;
+            case 'USER_TYPE_HOTEL':
+                {
+                    Hotel.update(reqData, function(error, hotel) {
                         if (hotel) {
                             res.json({ result: 1, msg: '', data: hotel });
                         } else {

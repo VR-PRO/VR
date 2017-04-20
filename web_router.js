@@ -54,5 +54,6 @@ router.post('/adv/list', adv.list);
 
 //base info 路由
 router.post('/common/base/info', common.baseInfo);
+router.post('/common/base/update', common.baseInfoUpdate);
 
 module.exports = router;
