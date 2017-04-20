@@ -35,10 +35,10 @@ exports.list = function(pageNo, pageSize, name, agentId, callback) {
         callback(error, null);
     });
 }
-exports.detail = function(mobile, callback) {
+exports.detail = function(userId, callback) {
     Hotel.findOne({
         where: {
-            mobile: mobile
+            userId: userId
         }
     }).then(function(hotel) {
         callback(null, hotel);
