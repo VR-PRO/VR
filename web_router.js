@@ -41,14 +41,18 @@ router.post('/user/check', user.check);
 //agent 路由
 router.post('/agent/save', agent.save);
 router.post('/agent/list', agent.list);
+router.post('/agent/detail', agent.detail);
 
 //hotel 路由
 router.post('/hotel/save', hotel.save);
 router.post('/hotel/list', hotel.list);
+router.post('/hotel/detail', hotel.detail);
 
 //adv 路由
 router.post('/adv/save', adv.save);
 router.post('/adv/list', adv.list);
 
+//base info 路由
+router.post('/common/base/info', common.baseInfo);
 
 module.exports = router;

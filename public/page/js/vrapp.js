@@ -195,7 +195,7 @@ vrApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
                     return $ocLazyLoad.load([{
                         name: 'vrApp',
                         files: [
-                            vrHelper.staticPer + '/info/infoController.js'
+                            vrHelper.staticPer + '/baseInfo/baseInfoController.js'
                         ]
                     }]);
                 }]

@@ -1,7 +1,6 @@
 var models = require('../../models/mysql');
 
 var Hotel = models.Hotel;
-var AgentHotel = models.AgentHotel;
 
 exports.save = function(_hotel, callback) {
     return models.sequelize.transaction(function(t) {
@@ -9,14 +8,9 @@ exports.save = function(_hotel, callback) {
             name: _hotel.name,
             mobile: _hotel.mobile,
             rate: _hotel.rate,
+            agentId: _hotel.agentId,
             remark: _hotel.remark,
-        }, { transaction: t }).then(function(hotel) {
-            return AgentHotel.create({
-                agentId: _hotel.agentId,
-                hotelId: hotel.hotelId
-            }, { transaction: t });
-        });
-
+        }, { transaction: t });
     }).then(function(hotel) {
         var res = hotel && hotel.dataValues ? hotel.dataValues : null;
         callback(null, hotel);
@@ -25,19 +19,30 @@ exports.save = function(_hotel, callback) {
     });
 }
 
-exports.list = function(pageNo, pageSize, name, callback) {
+exports.list = function(pageNo, pageSize, name, agentId, callback) {
     var opt = {
         'limit': pageSize,
         'offset': pageNo - 1
     };
+    var w = {};
     if (name) {
-        opt.where = {
-            name: {
-                $like: '%' + name + '%'
-            }
-        }
+        w.name = { $like: '%' + name + '%' };
     }
+    if (agentId) {
+        w.agentId = agentId;
+    }
+    opt.where = w;
     Hotel.findAndCountAll(opt).then(function(result) {
         callback(result);
+    });
+}
+
+exports.detail = function(mobile, callback) {
+    Hotel.findOne({
+        where: {
+            mobile: mobile
+        }
+    }).then(function(hotel) {
+        callback(hotel);
     });
 }

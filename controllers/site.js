@@ -3,6 +3,8 @@
  */
 var utils = require('utility');
 var User = require('../proxy/mysql/user');
+var Agent = require('../proxy/mysql/agent');
+var Hotel = require('../proxy/mysql/hotel');
 
 //首页的处理
 exports.index = function(req, res, next) {
@@ -34,8 +36,42 @@ exports.login = function(req, res, next) {
                     req.session.login_error = '密码不正确';
                     res.redirect("/v_login");
                 } else {
-                    req.session.vr_u = _user;
-                    res.redirect("/");
+
+                    switch (_user.type) {
+                        case 'USER_TYPE_ADMIN':
+                            {
+                                req.session.vr_u = _user;
+                                res.redirect("/");
+                            }
+                            break;
+                        case 'USER_TYPE_AGENT':
+                            {
+                                Agent.detail(username, function(agent) {
+                                    if (agent) {
+                                        _user.agentId = agent.id;
+                                        req.session.vr_u = _user;
+                                        res.redirect("/");
+                                    }
+                                });
+                            }
+                            break;
+                        case 'USER_TYPE_HOTEL':
+                            {
+                                Hotel.detail(username, function(hotel) {
+                                    if (hotel) {
+                                        _user.hotelId = hotel.id;
+                                        req.session.vr_u = _user;
+                                        res.redirect("/");
+                                    }
+                                });
+                            }
+                            break;
+                        default:
+                            {
+                                req.session.vr_u = _user;
+                                res.redirect("/");
+                            }
+                    }
                 }
             } else {
                 req.session.login_error = '手机号不存在';

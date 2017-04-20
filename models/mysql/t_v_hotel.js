@@ -4,6 +4,7 @@
 module.exports = function(sequelize, Sequelize) {
     return sequelize.define('t_v_hotel', {
         name: { type: Sequelize.STRING, field: 'name', comment: '名称' },
+        agentId: { type: Sequelize.INTEGER, field: 'agentId', comment: '供应商ID' },
         mobile: { type: Sequelize.STRING, field: 'mobile', comment: '手机号' },
         rate: { type: Sequelize.STRING, field: 'rate', comment: '分成比例' },
         pid: { type: Sequelize.INTEGER, field: 'pid', comment: '省ID' },

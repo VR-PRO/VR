@@ -23,14 +23,23 @@ exports.list = function(pageNo, pageSize, name, callback) {
         'limit': pageSize,
         'offset': pageNo - 1
     };
+
+    var w = {};
     if (name) {
-        opt.where = {
-            name: {
-                $like: '%' + name + '%'
-            }
-        }
+        w.name = { $like: '%' + name + '%' };
     }
+    opt.where = w;
     Agent.findAndCountAll(opt).then(function(result) {
         callback(result);
+    });
+}
+
+exports.detail = function(mobile, callback) {
+    Agent.findOne({
+        where: {
+            mobile: mobile
+        }
+    }).then(function(agent) {
+        callback(agent);
     });
 }

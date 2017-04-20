@@ -33,7 +33,6 @@ exports.save = function(req, res, next) {
         }
     });
 };
-//供应商的列表
 exports.list = function(req, res, next) {
     var name = req.body.name;
     var pageNo = req.body.pageNo;
@@ -44,5 +43,18 @@ exports.list = function(req, res, next) {
         var list = result.rows;
         res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list } });
     });
-
 };
+exports.detail = function(req, res, next) {
+    var session = req.session;
+    var mobile = '';
+    if (session && req.session.vr_u) {
+        mobile = req.session.vr_u.mobile;
+    }
+    Agent.detail(mobile, function(agent) {
+        if (agent) {
+            res.json({ result: 1, msg: '', data: agent });
+        } else {
+            res.json({ result: 0, msg: '', data: {} });
+        }
+    });
+}

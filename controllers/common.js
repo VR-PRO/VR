@@ -4,6 +4,8 @@
 var qiniu = require('qiniu');
 var fs = require("fs");
 var qnCfg = require("../config").qn_access;
+var Agent = require('../proxy/mysql/agent');
+var Hotel = require('../proxy/mysql/hotel');
 
 qiniu.conf.ACCESS_KEY = qnCfg.accessKey;
 qiniu.conf.SECRET_KEY = qnCfg.secretKey;
@@ -21,12 +23,43 @@ exports.uploadImg = function(req, res, next) {
                         fs.unlink(filePath, function() {});
                     }
                 });
-                res.json({result:1,msg:'',data:{imgCode:_res.hash}});
+                res.json({ result: 1, msg: '', data: { imgCode: _res.hash } });
             } else {
-                res.json({result:0,msg:'',data:{}});
+                res.json({ result: 0, msg: '', data: {} });
             }
         });
     } catch (ex) {
         next(ex);
     }
-};
+}
+exports.baseInfo = function(req, res, next) {
+    var session = req.session;
+    var mobile = '';
+    if (session && req.session.vr_u) {
+        var u = req.session.vr_u;
+        switch (u.type) {
+            case 'USER_TYPE_AGENT':
+                {
+                    Agent.detail(u.mobile, function(agent) {
+                        if (agent) {
+                            res.json({ result: 1, msg: '', data: agent });
+                        } else {
+                            res.json({ result: 0, msg: '', data: {} });
+                        }
+                    });
+                }
+                break;
+            case 'USER_TYPE_HOTEL':
+                {
+                    Hotel.detail(u.mobile, function(hotel) {
+                        if (hotel) {
+                            res.json({ result: 1, msg: '', data: hotel });
+                        } else {
+                            res.json({ result: 0, msg: '', data: {} });
+                        }
+                    });
+                }
+                break;
+        }
+    }
+}
