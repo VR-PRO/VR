@@ -33,8 +33,8 @@ router.post('/common/img/upload', multipartMiddleware, common.uploadImg);
 
 
 //设备的新增加
-router.get('/dev/save', dev.save);
-router.get('/dev/list', dev.list);
+router.post('/dev/save', dev.save);
+router.post('/dev/list', dev.list);
 
 //用户mobile检查
 router.post('/user/check', user.check);

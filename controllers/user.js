@@ -5,7 +5,7 @@ exports.check = function(req, res, next) {
 
     User.getUserByMobile(mobile, function(error, user) {
         if (error) {
-            res.json({ 'result': 0, 'data': {}, 'msg': error });
+            res.json({ 'result': 0, 'data': {}, 'msg': error.message });
         } else {
             if (user) {
                 res.json({ 'result': 0, 'data': {}, 'msg': '信息已存在.' });

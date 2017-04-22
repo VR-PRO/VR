@@ -5,8 +5,31 @@ exports.save = function(req, res, next) {
 
     var roomNum = req.body.roomNum;
     var qrcodeList = req.body.qrcodeList;
-    var devCode = req.body.qrcodeList;
+    var devCode = req.body.devCode;
 
+    var session = req.session;
+    var agentId = '';
+    var hotelId = '';
+    if (session && req.session.agentId) {
+        agentId = req.session.agentId;
+    }
+    if (session && req.session.hotelId) {
+        hotelId = req.session.hotelId;
+    }
+
+    Dev.save({
+        roomNum: roomNum,
+        agentId: agentId,
+        hotelId: hotelId,
+        devCode: devCode,
+        qrcodeList: qrcodeList
+    }, function(error, result) {
+        if (error) {
+            res.json({ result: 0, msg: error.message, data: {} });
+        } else {
+            res.json({ result: 1, msg: '', data: result });
+        }
+    });
 
 };
 
@@ -16,7 +39,7 @@ exports.list = function(req, res, next) {
     var pageNo = req.body.pageNo;
     var pageSize = req.body.pageSize;
 
-    Dev.list(pageNo, pageSize, name, function(error, result) {
+    Dev.list(pageNo, pageSize, key, function(error, result) {
         if (error) {
             res.json({ result: 0, msg: '', data: {} });
         } else {
@@ -25,6 +48,4 @@ exports.list = function(req, res, next) {
             res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list } });
         }
     });
-
-
 };

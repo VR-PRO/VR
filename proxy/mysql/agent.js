@@ -12,7 +12,6 @@ exports.save = function(_agent, callback) {
             remark: _agent.remark,
         }, { transaction: t });
     }).then(function(agent) {
-        var res = agent && agent.dataValues ? agent.dataValues : null;
         callback(null, agent);
     }).catch(function(err) {
         callback(err, null);

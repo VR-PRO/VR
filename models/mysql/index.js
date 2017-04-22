@@ -12,8 +12,6 @@ var Hotel = sequelize.import('./t_v_hotel.js');
 
 var Agent = sequelize.import('./t_v_agent.js');
 
-// 建立模型之间的关系
-Dev.hasMany(DevQrcode, { foreignKey: 'devId', targetKey: 'id', as: 'DevQrcode' });
 
 // 同步模型到数据库中
 sequelize.sync();
@@ -24,7 +22,5 @@ exports.Dev = Dev;
 exports.DevQrcode = DevQrcode;
 exports.Hotel = Hotel;
 exports.Agent = Agent;
-//exports.Order = Order;
-
 
 exports.sequelize = sequelize;

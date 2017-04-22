@@ -13,7 +13,6 @@ exports.save = function(_hotel, callback) {
             remark: _hotel.remark,
         }, { transaction: t });
     }).then(function(hotel) {
-        var res = hotel && hotel.dataValues ? hotel.dataValues : null;
         callback(null, hotel);
     }).catch(function(err) {
         callback(err, null);

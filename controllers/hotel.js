@@ -29,7 +29,7 @@ exports.save = function(req, res, next) {
                 remark: remark
             }, function(error, hotel) {
                 if (error) {
-                    res.json({ result: 0, msg: '操作失败.', data: {} });
+                    res.json({ result: 0, msg: error.message, data: {} });
                 } else {
                     res.json({ result: 1, msg: '操作成功.', data: {} });
                 }
@@ -50,7 +50,7 @@ exports.list = function(req, res, next) {
     }
     Hotel.list(pageNo, pageSize, name, agentId, function(error, result) {
         if (error) {
-            res.json({ result: 0, msg: '', data: error });
+            res.json({ result: 0, msg: error.message, data: error });
         } else {
             var totalItems = result.count;
             var list = result.rows;
@@ -69,7 +69,7 @@ exports.detail = function(req, res, next) {
         if (hotel) {
             res.json({ result: 1, msg: '', data: hotel });
         } else {
-            res.json({ result: 0, msg: '', data: error });
+            res.json({ result: 0, msg: '', data: error.message });
         }
     });
 }

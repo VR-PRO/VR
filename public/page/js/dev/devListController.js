@@ -12,12 +12,10 @@
         var devListVm = this,
             curIndex = -1,
             urls = {
-                list: '/dev/list'
+                list: '/dev/list',
+                save: '/dev/save',
             };
-
         devListVm.loading = false;
-
-
 
         var opt = {
             saveDevModalView: function() {
@@ -26,7 +24,7 @@
                 devListVm.page.vm.save.qrcodeList = [{ qrcode: '' }];
                 $('#divDevSaveModal').modal('show');
             },
-            qrcodeCreate: function() { //devListVm.page.event.qrcodeCreate
+            qrcodeCreate: function() {
                 if (devListVm.page.vm.save.qrcodeList.length >= 5) {
                     message.error('最多绑定5个设备.');
                     return false;
@@ -84,6 +82,8 @@
                     message.success('操作成功.');
                     $('#divDevSaveModal').modal('hide');
                     devListVm.loading = false;
+                    devListVm.pageCfg.currentPage = 1;
+                    opt.list();
                     $scope.$apply();
                 }, function() {
                     devListVm.loading = false;
@@ -102,9 +102,13 @@
                 }
                 vrHelper.jqAjax(urls.list, data, function(res) {
                     var data = res.data;
-                    var list = data.list;
+                    var list = data.list || [];
 
-                    devListVm.page.vm.list = list || [];
+                    _.forEach(list, function(item) {
+                        item.created = moment(item.created).format('YYYY-MM-DD HH:mm');
+                    });
+
+                    devListVm.page.vm.list = list;
                     devListVm.pageCfg.totalItems = data.totalItems || 0;
 
                     devListVm.loading = false;
@@ -116,10 +120,14 @@
             },
             init: function() {
                 opt.list();
-            }
+            },
+            rearch: function() {
+                devListVm.pageCfg.currentPage = 1;
+                opt.list();
+            },
         };
 
-        devListVm.page = { //devListVm.page.vm.list
+        devListVm.page = { //devListVm.page.event.rearch
             vm: {
                 list: [],
                 key: '', //devListVm.page.vm.key
@@ -133,7 +141,8 @@
                 saveDevModalView: opt.saveDevModalView,
                 qrcodeCreate: opt.qrcodeCreate,
                 qrcodeRemove: opt.qrcodeRemove,
-                save: opt.save
+                save: opt.save,
+                rearch: opt.rearch,
             }
         };
 
