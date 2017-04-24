@@ -95,6 +95,9 @@ var vrHelper = (function() {
                             if (jqXHR.responseText && jqXHR.responseText.indexOf('请登录系统') >= 0) {
                                 window.location.href = '/v_login';
                             }
+                            if (jqXHR.status == 0 && jqXHR.statusText == 'error') {
+                                window.location.href = '/v_login';
+                            }
                         } catch (ex) {
                             message.error("后端错误.");
                         }

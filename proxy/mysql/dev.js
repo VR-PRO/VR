@@ -60,8 +60,35 @@ exports.list = function(pageNo, pageSize, key, agentId, hotelId, callback) {
     });
 }
 
-exports.check = function(name, qrcodes, devcode, callback) {
-
+exports.check = function(qrcodes, devCode, callback) {
+    Dev.count({
+        where: {
+            devCode: devCode
+        }
+    }).then(function(cnt) {
+        var msg = [];
+        if (cnt > 0) {
+            msg.push('设备号已存在.');
+        }
+        DevQrcode.findAll({
+            where: {
+                qrCode: {
+                    $in: qrcodes
+                }
+            }
+        }).then(function(qr) {
+            if (qr) {
+                _.forEach(qr, function(item) {
+                    msg.push('二维码' + item.qrCode + '已存在.');
+                })
+            }
+            if (msg.length > 0) {
+                callback(msg, null);
+            } else {
+                callback(null, {});
+            }
+        });
+    });
 }
 
 exports.findDevListByAgentIds = function(agentIds, callback) {

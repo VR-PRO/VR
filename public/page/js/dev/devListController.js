@@ -14,6 +14,9 @@
             urls = {
                 list: '/dev/list',
                 save: '/dev/save',
+                check: '/dev/check',
+                agentList: '',
+                hotelList: '',
             };
         devListVm.loading = false;
 
@@ -54,6 +57,7 @@
                     return false;
                 }
 
+
                 var errors = [];
                 _.forEach(devListVm.page.vm.save.qrcodeList, function(item, index) {
                     if (item.qrcode == '') {
@@ -64,31 +68,42 @@
                     message.error(errors.join('<br/>'));
                     return false;
                 }
+                //是否有重复的二维码
+                var existsArr = [];
+                _.forEach(devListVm.page.vm.save.qrcodeList, function(item, index) {
+                    if (existsArr.indexOf(item.qrcode) >= 0) {
+                        existsArr.push('二维码重复');
+                    }
+                });
+                if (existsArr.length > 0) {
+                    message.error('二维码有重复.');
+                    return false;
+                }
 
                 var devCode = _.trim(devListVm.page.vm.save.devCode);
                 if (devCode == '') {
                     message.error('设备号不可为空.');
                     return false;
                 }
-
-                //后台保存
-                var data = {
-                    roomNum: roomNum,
-                    qrcodeList: devListVm.page.vm.save.qrcodeList,
-                    devCode: devCode
-                };
-                devListVm.loading = true;
-                vrHelper.jqAjax('/dev/save', data, function(res) {
-                    message.success('操作成功.');
-                    $('#divDevSaveModal').modal('hide');
-                    devListVm.loading = false;
-                    devListVm.pageCfg.currentPage = 1;
-                    opt.list();
-                    $scope.$apply();
-                }, function() {
-                    devListVm.loading = false;
-                    $scope.$apply();
-                }, 'POST');
+                opt.check(function() {
+                    var data = {
+                        roomNum: roomNum,
+                        qrcodeList: devListVm.page.vm.save.qrcodeList,
+                        devCode: devCode
+                    };
+                    devListVm.loading = true;
+                    vrHelper.jqAjax(urls.save, data, function(res) {
+                        message.success('操作成功.');
+                        $('#divDevSaveModal').modal('hide');
+                        devListVm.loading = false;
+                        devListVm.pageCfg.currentPage = 1;
+                        opt.list();
+                        $scope.$apply();
+                    }, function() {
+                        devListVm.loading = false;
+                        $scope.$apply();
+                    }, 'POST');
+                });
             },
             list: function() {
 
@@ -125,10 +140,54 @@
                 devListVm.pageCfg.currentPage = 1;
                 opt.list();
             },
+            check: function(callback) {
+                devListVm.loading = true;
+                var devCode = _.trim(devListVm.page.vm.save.devCode);
+                var data = {
+                    qrcodeList: devListVm.page.vm.save.qrcodeList,
+                    devCode: devCode
+                };
+                vrHelper.jqAjax(urls.check, data, function(res) {
+                    if (res.data) {
+                        message.error(res.msg.join('<br/>'));
+                        devListVm.loading = false;
+                        $scope.$apply();
+                    } else {
+                        callback && callback();
+                    }
+                }, function() {
+                    devListVm.loading = false;
+                    $scope.$apply();
+                }, 'POST');
+            },
+            agentList: function() {
+                vrHelper.jqAjax(urls.agentList, data, function(res) {
+                    var data = res.data;
+                    var tempArr = [];
+                    tempArr.push({ txt: '全部', id: '' });
+                    angular.forEach(data, function(item) {
+                        tempArr.puhs();
+                    });
+                    devListVm.page.vm.agentList = tempArr;
+                    devListVm.loading = false;
+                    $scope.$apply();
+                }, function(err) {
+                    devListVm.loading = false;
+                    $scope.$apply();
+                }, 'POST', false, 'devPageLoadId');
+            },
+            hotelList: function() {
+
+            },
+            viewFliterModal: function() {
+                //$('#divInfoFliter').modal('show');
+            }
         };
 
         devListVm.page = { //devListVm.page.event.rearch
             vm: {
+                agentList: [],
+                hotelList: [],
                 list: [],
                 key: '', //devListVm.page.vm.key
                 save: {
@@ -143,6 +202,7 @@
                 qrcodeRemove: opt.qrcodeRemove,
                 save: opt.save,
                 rearch: opt.rearch,
+                viewFliterModal: opt.viewFliterModal
             }
         };
 
