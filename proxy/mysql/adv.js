@@ -17,7 +17,23 @@ exports.save = function(_adv, callback) {
 }
 
 exports.list = function(callback) {
-    return Adv.findAll({ order: 'sort DESC' }).then(function(result) {
+    return Adv.findAll({
+        where: {
+            status: 1
+        },
+        order: 'sort DESC'
+    }).then(function(result) {
+        callback(null, result);
+    });
+}
+
+exports.api_v1_list = function(callback) {
+    return Adv.findAll({
+        where: {
+            status: 1
+        },
+        order: 'sort DESC'
+    }).then(function(result) {
         callback(null, result);
     });
 }

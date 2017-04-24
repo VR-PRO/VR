@@ -1,4 +1,5 @@
 var Adv = require('../proxy/mysql/adv');
+var config = require('../config');
 
 exports.save = function(req, res, next) {
     var scope = req.body.scope;
@@ -32,6 +33,21 @@ exports.list = function(req, res, next) {
             res.json({ result: 0, msg: '', data: {} });
         } else {
             res.json({ result: 1, msg: '', data: result });
+        }
+    });
+};
+
+exports.api_v1_list = function(req, res, next) {
+    Adv.api_v1_list(function(error, result) {
+        if (error) {
+            res.json({ result: 0, msg: error.message, data: {} });
+        } else {
+            //整理下数据
+            var list = [];
+            _.forEach(result, function(item) {
+                list.push({ img: config.qn_access.origin + item.img });
+            });
+            res.json({ result: 1, msg: '', data: list });
         }
     });
 };

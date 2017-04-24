@@ -5,8 +5,13 @@ var _ = require('lodash');
 var bodyParser = require('body-parser');
 var compression = require('compression');
 require('./models/mysql');
+
 var webRouter = require('./web_router');
+var apiRouterV1 = require('./api_router_v1');
 require('./api/adv');
+var csurf = require('csurf');
+var errorhandler = require('errorhandler');
+var cors = require('cors');
 var app = express();
 var logger = require('./common/logger');
 var config = require('./config');
@@ -31,8 +36,31 @@ app.use(session({
     }
 }));
 
+if (!config.debug) {
+    app.use(function(req, res, next) {
+        if (req.path === '/api' || req.path.indexOf('/api') === -1) {
+            csurf()(req, res, next);
+            return;
+        }
+        next();
+    });
+    app.set('view cache', true);
+}
+
 app.use('/public', express.static(staticDir));
+
+app.use('/api/v1', cors(), apiRouterV1);
 app.use('/', webRouter);
+
+if (config.debug) {
+    app.use(errorhandler());
+} else {
+    app.use(function(err, req, res, next) {
+        logger.error(err);
+        return res.status(500).send('500 status');
+    });
+}
+
 
 if (!module.parent) {
     app.listen(3000, function() {

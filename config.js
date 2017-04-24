@@ -30,7 +30,7 @@ var config = {
         accessKey: '9yN3_02PLEYcWVquQCBdpyuGX4OXTahRGYXbJ6uo',
         secretKey: 'x3T6ANzr12rV7qvtnYGkbYhSnNBKR7lA3wPtnhJY',
         bucket: 'vrpro',
-        origin: 'http://oomrprje8.bkt.clouddn.com'
+        origin: 'http://oomrprje8.bkt.clouddn.com/'
     },
     /*
      * redis 配置
