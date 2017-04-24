@@ -82,6 +82,16 @@
                     var data = res.data;
                     var list = data.list;
 
+                    var devArr = data.devArr;
+                    var agentMap = [];
+                    angular.forEach(devArr, function(item) {
+                        agentMap[item.hotelId] = item.cnt;
+                    });
+                    angular.forEach(list, function(item) {
+                        var cMap = agentMap[item.id];
+                        item.devCnt = cMap ? cMap : 0;
+                    });
+
                     hotelListVm.page.vm.list = list || [];
                     hotelListVm.pageCfg.totalItems = data.totalItems || 0;
 

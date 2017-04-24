@@ -118,7 +118,7 @@ vrApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
             }
         })
         .state('dev', {
-            url: "/dev.html",
+            url: "/dev.html?",
             templateUrl: "vr_dev.html",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {

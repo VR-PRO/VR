@@ -78,8 +78,16 @@
 
                 vrHelper.jqAjax(urls.agent_list, data, function(res) {
                     var data = res.data;
-                    var list = data.list;
-
+                    var list = data.list || [];
+                    var devArr = data.devArr;
+                    var agentMap = [];
+                    angular.forEach(devArr, function(item) {
+                        agentMap[item.agentId] = item.cnt;
+                    });
+                    angular.forEach(list, function(item) {
+                        var cMap = agentMap[item.id];
+                        item.devCnt = cMap ? cMap : 0;
+                    });
                     agentListVm.page.vm.list = list || [];
                     agentListVm.pageCfg.totalItems = data.totalItems || 0;
 

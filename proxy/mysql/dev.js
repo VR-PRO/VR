@@ -11,7 +11,7 @@ exports.save = function(_dev, callback) {
         qrCodes.push(qr.qrcode);
     });
 
-    return models.sequelize.transaction(function(t) {
+    return sequelize.transaction(function(t) {
         return Dev.create({
             roomNum: _dev.roomNum,
             agentId: _dev.agentId,
@@ -41,8 +41,8 @@ exports.list = function(pageNo, pageSize, key, agentId, hotelId, callback) {
     var w = {};
     if (key) {
         w.$or = [
-            { hotelId: { $like: '%' + key + '%' } },
-            { agentId: { $like: '%' + key + '%' } },
+            { roomNum: { $like: '%' + key + '%' } },
+            { devCode: { $like: '%' + key + '%' } },
             { qrCodes: { $like: '%' + key + '%' } }
         ];
     }
@@ -91,28 +91,22 @@ exports.check = function(qrcodes, devCode, callback) {
     });
 }
 
-exports.findDevListByAgentIds = function(agentIds, callback) {
-    Dev.findAndCount({
-        group: ['agentId'],
-        where: {
-            agentId: {
-                $in: [agentIds]
-            }
-        }
-    }).then(function(result) {
-        callback(null, result);
+exports.findAllByAgentIds = function(agentIds, callback) {
+
+    sequelize.query('SELECT COUNT(id) AS cnt,agentId FROM t_v_dev AS t_v_dev WHERE t_v_dev.agentId IN (' + agentIds.join(',') + ') GROUP BY agentId', {
+        type: sequelize.QueryTypes.SELECT
+    }).then(function(results) {
+        callback(null, results);
     }).catch(function(error) {
         callback(error, null);
     });
 }
 
-exports.findDevListByHotelIds = function(hotelIds, callback) {
-    Dev.findAndCount({
-        where: {
-            $in: hotelIds
-        }
-    }).then(function(result) {
-        callback(null, result);
+exports.findAllByHotelIds = function(hotelIds, callback) {
+    sequelize.query('SELECT COUNT(id)  AS cnt ,hotelId FROM t_v_dev AS t_v_dev WHERE t_v_dev.hotelId IN (' + hotelIds.join(',') + ') GROUP BY hotelId', {
+        type: sequelize.QueryTypes.SELECT
+    }).then(function(results) {
+        callback(null, results);
     }).catch(function(error) {
         callback(error, null);
     });

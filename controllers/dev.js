@@ -53,7 +53,7 @@ exports.list = function(req, res, next) {
 
     Dev.list(pageNo, pageSize, key, agentId, hotelId, function(error, result) {
         if (error) {
-            res.json({ result: 0, msg: '', data: {} });
+            res.json({ result: 0, msg: error.message, data: {} });
         } else {
             var totalItems = result.count;
             var list = result.rows;

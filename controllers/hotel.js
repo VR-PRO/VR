@@ -1,6 +1,7 @@
 var Hotel = require('../proxy/mysql/hotel');
 var Agent = require('../proxy/mysql/agent');
 var User = require('../proxy/mysql/user');
+var Dev = require('../proxy/mysql/dev');
 
 exports.save = function(req, res, next) {
     var name = req.body.name;
@@ -52,9 +53,23 @@ exports.list = function(req, res, next) {
         if (error) {
             res.json({ result: 0, msg: error.message, data: error });
         } else {
-            var totalItems = result.count;
-            var list = result.rows;
-            res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list } });
+
+            var hotels = [];
+            _.forEach(result.rows, function(item) {
+                hotels.push(item.id);
+            });
+
+            Dev.findAllByHotelIds(hotels, function(error, _result) {
+                if (error) {
+                    res.json({ result: 0, msg: error.message, data: {} });
+                } else {
+                    var totalItems = result.count;
+                    var list = result.rows;
+                    res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list, devArr: _result } });
+                }
+
+            });
+
         }
     });
 };

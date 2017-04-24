@@ -538,7 +538,7 @@
                                     <td> {{item.name}} </td>
                                     <td> {{item.mobile}} </td>
                                     <td> {{item.rate}}% </td>
-                                    <td> {{item.devCnt||0}} </td>
+                                    <td> <a href='#/dev.html?agentId={{item.id}}'>{{item.devCnt||0}}</a> </td>
                                     <td> {{item.remark||''}} </td>
                                 </tr>
                             </tbody>
@@ -653,7 +653,7 @@
                                     <td> {{item.name}} </td>
                                     <td> {{item.mobile}} </td>
                                     <td> {{item.rate}}% </td>
-                                    <td> {{item.devCnt||0}} </td>
+                                    <td> <a href='#/dev.html?hotelId={{item.id}}'> {{item.devCnt||0}}</a> </td>
                                     <td> {{item.remark||''}} </td>
                                 </tr>
                             </tbody>

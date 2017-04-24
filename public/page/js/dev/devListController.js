@@ -6,11 +6,13 @@
         .module("vrApp")
         .controller('DevListController', DevListController);
 
-    DevListController.$inject = ['$scope'];
+    DevListController.$inject = ['$scope', '$location'];
 
-    function DevListController($scope) {
+    function DevListController($scope, $location) {
         var devListVm = this,
             curIndex = -1,
+            agentId = 0,
+            hotelId = 0,
             urls = {
                 list: '/dev/list',
                 save: '/dev/save',
@@ -19,6 +21,15 @@
                 hotelList: '',
             };
         devListVm.loading = false;
+
+        if ($location.$$search && $location.$$search.agentId) {
+            agentId = $location.$$search.agentId;
+        }
+
+        if ($location.$$search && $location.$$search.hotelId) {
+            hotelId = $location.$$search.hotelId;
+        }
+
 
         var opt = {
             saveDevModalView: function() {
@@ -114,6 +125,12 @@
                 };
                 if (key) {
                     data.key = key;
+                }
+                if (agentId) {
+                    data.agentId = agentId;
+                }
+                if (hotelId) {
+                    data.hotelId = hotelId;
                 }
                 vrHelper.jqAjax(urls.list, data, function(res) {
                     var data = res.data;
