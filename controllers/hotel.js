@@ -45,8 +45,8 @@ exports.list = function(req, res, next) {
 
     var session = req.session;
     var agentId = '';
-    if (session && req.session.vr_u) {
-        agentId = req.session.vr_u.agentId;
+    if (session && req.session.agentId) {
+        agentId = req.session.agentId;
     }
     Hotel.list(pageNo, pageSize, name, agentId, function(error, result) {
         if (error) {

@@ -39,7 +39,17 @@ exports.list = function(req, res, next) {
     var pageNo = req.body.pageNo;
     var pageSize = req.body.pageSize;
 
-    Dev.list(pageNo, pageSize, key, function(error, result) {
+    var session = req.session;
+    var agentId = '';
+    var hotelId = '';
+    if (session && req.session.agentId) {
+        agentId = req.session.agentId;
+    }
+    if (session && req.session.hotelId) {
+        hotelId = req.session.hotelId;
+    }
+
+    Dev.list(pageNo, pageSize, key, agentId, hotelId, function(error, result) {
         if (error) {
             res.json({ result: 0, msg: '', data: {} });
         } else {

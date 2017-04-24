@@ -352,7 +352,7 @@
                                 <tr ng-repeat='item in devListVm.page.vm.list'>
                                     <td> {{$index + 1}} </td>
                                     <td> {{item.roomNum}} </td>
-                                    <td> {{item.qrList||''}} </td>
+                                    <td> {{item.qrCodes}} </td>
                                     <td> {{item.devCode}} </td>
                                     <td> {{item.created.substr(0,16)}} </td>
                                 </tr>

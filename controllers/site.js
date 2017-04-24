@@ -40,12 +40,15 @@ exports.login = function(req, res, next) {
                     switch (_user.type) {
                         case 'USER_TYPE_ADMIN':
                             {
+                                req.session.agentId = '';
+                                req.session.hotelId = '';
                                 req.session.vr_u = _user;
                                 res.redirect("/");
                             }
                             break;
                         case 'USER_TYPE_AGENT':
                             {
+                                req.session.hotelId = '';
                                 Agent.detail(_user.id, function(error, agent) {
                                     if (agent) {
                                         req.session.vr_u = _user;
@@ -59,7 +62,6 @@ exports.login = function(req, res, next) {
                             {
                                 Hotel.detail(_user.id, function(error, hotel) {
                                     if (hotel) {
-
                                         req.session.vr_u = _user;
                                         req.session.hotelId = hotel.id;
                                         req.session.agentId = hotel.agentId;
@@ -70,6 +72,8 @@ exports.login = function(req, res, next) {
                             break;
                         default:
                             {
+                                req.session.agentId = '';
+                                req.session.hotelId = '';
                                 req.session.vr_u = _user;
                                 res.redirect("/");
                             }
