@@ -58,7 +58,7 @@
 
     <!-- VR首页  开始-->
     <script type="text/ng-template" id="vr_index.html">
-        <div data-ng-controller="IndexController as indexVm">
+        <div data-ng-controller="IndexController as indexVm" id='indexLoadId'>
 
             <time-bar conf="indexVm.directives.timeOptCfg"></time-bar>
 
@@ -70,7 +70,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="500000"> ¥ 500000 </span>
+                                <span data-counter="counterup"> ¥ {{indexVm.page.vm.top.income.toFixed(2)}} </span>
                             </div>
                             <div class="desc"> 收入 </div>
                         </div>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="50000"> ¥ 200000 </span>
+                                <span data-counter="counterup"> ¥ {{indexVm.page.vm.top.commission.toFixed(2)}}  </span>
                             </div>
                             <div class="desc"> 分成 </div>
                         </div>
@@ -96,7 +96,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="300000"> ¥ 300000 </span>
+                                <span data-counter="counterup"> ¥ {{indexVm.page.vm.top.profit.toFixed(2)}}  </span>
                             </div>
                             <div class="desc"> 利润 </div>
                         </div>
@@ -109,7 +109,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="89"> 2000 </span>
+                                <span data-counter="counterup"> {{indexVm.page.vm.top.devCnt}} </span>
                             </div>
                             <div class="desc"> 设备数 </div>
                         </div>
@@ -117,112 +117,54 @@
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="col-md-12">
-                    <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet light ">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="icon-social-dribbble font-green"></i>
                                 <span class="caption-subject font-green bold uppercase"> 统计表 </span>
                             </div>
-                            <div class="actions">
-
-                            </div>
+                            <div class="actions"></div>
                         </div>
                         <div class="portlet-body">
-
-                            <!-- 自用首页  -->
                             <table class="table table-hover table-light">
                                 <thead>
                                     <tr>
                                         <th> # </th>
-                                        <th> 代理商 </th>
+                                        <th>
+                                            <% if(userType=='USER_TYPE_ADMIN'){%>代理商
+                                                <%}%>
+                                                    <% if(userType=='USER_TYPE_AGENT'){%>酒店名
+                                                        <%}%>
+                                                            <% if(userType=='USER_TYPE_HOTEL'){%>房间号
+                                                                <%}%>
+                                        </th>
                                         <th> 收入金额 </th>
                                         <th> 分成金额 </th>
                                         <th> 设备数 </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td> 1 </td>
-                                        <td> 张三 </td>
-                                        <td> ¥2000 </td>
-                                        <td> ¥1000 </td>
-                                        <td> 10 </td>
+                                    <tr ng-repeat='item in indexVm.page.vm.list'>
+                                        <td> {{$index + 1}}</td>
+                                        <td> {{item.name}} </td>
+                                        <td> ¥{{item.income.toFixed(2)}} </td>
+                                        <td> ¥{{item.commission.toFixed(2)}} </td>
+                                        <td> {{item.devCnt}} </td>
                                     </tr>
-                                    <tr>
-                                        <td> 2 </td>
-                                        <td> 李四 </td>
-                                        <td> ¥2000 </td>
-                                        <td> ¥1000 </td>
-                                        <td> 10 </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <!-- 代理商首页  -->
-                            <table class="table table-hover table-light">
-                                <thead>
-                                    <tr>
-                                        <th> # </th>
-                                        <th> 酒店名 </th>
-                                        <th> 收入金额 </th>
-                                        <th> 分成金额 </th>
-                                        <th> 设备数 </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td> 1 </td>
-                                        <td> 汉庭 </td>
-                                        <td> ¥2000 </td>
-                                        <td> ¥1000 </td>
-                                        <td> 10 </td>
-                                    </tr>
-                                    <tr>
-                                        <td> 2 </td>
-                                        <td> 如家 </td>
-                                        <td> ¥2000 </td>
-                                        <td> ¥1000 </td>
-                                        <td> 10 </td>
+                                    <tr ng-if='indexVm.page.vm.list.length==0'>
+                                        <td colspan='20'>
+                                            <div class="empty">
+                                                <div class="img"></div>
+                                                <div class="empty-info font-grey-salt">暂无数据</div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-
-                            <!-- 代理商首页  -->
-                            <table class="table table-hover table-light">
-                                <thead>
-                                    <tr>
-                                        <th> # </th>
-                                        <th> 房间号 </th>
-                                        <th> 收入金额 </th>
-                                        <th> 分成金额 </th>
-                                        <th> 设备数 </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td> 1 </td>
-                                        <td> 001 </td>
-                                        <td> ¥2000 </td>
-                                        <td> ¥1000 </td>
-                                        <td> 10 </td>
-                                    </tr>
-                                    <tr>
-                                        <td> 2 </td>
-                                        <td> 002 </td>
-                                        <td> ¥2000 </td>
-                                        <td> ¥1000 </td>
-                                        <td> 10 </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
                         </div>
                     </div>
-                    <!-- END SAMPLE TABLE PORTLET-->
                 </div>
             </div>
         </div>

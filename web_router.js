@@ -60,6 +60,7 @@ router.post('/common/base/info', common.baseInfo);
 router.post('/common/base/update', common.baseInfoUpdate);
 
 //order 路由
-router.post('/order/list', adv.save);
+router.post('/index/tj', order.tj);
+router.post('/index/tj/list', order.tjList);
 
 module.exports = router;
