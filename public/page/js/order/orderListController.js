@@ -31,6 +31,7 @@
         };
         orderListVm.page = {
             vm: {
+                list: [],
 
             },
             event: {

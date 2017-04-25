@@ -15,6 +15,7 @@ var user = require('./controllers/user');
 var agent = require('./controllers/agent');
 var hotel = require('./controllers/hotel');
 var adv = require('./controllers/adv');
+var order = require('./controllers/order');
 var common = require('./controllers/common');
 
 
@@ -57,5 +58,8 @@ router.post('/adv/list', adv.list);
 //base info 路由
 router.post('/common/base/info', common.baseInfo);
 router.post('/common/base/update', common.baseInfoUpdate);
+
+//order 路由
+router.post('/order/list', adv.save);
 
 module.exports = router;

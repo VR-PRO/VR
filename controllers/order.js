@@ -1,0 +1,28 @@
+var Order = require('../proxy/mysql/order');
+
+
+exports.list = function(req, res, next) {
+
+    var key = req.body.key;
+    var pageNo = req.body.pageNo;
+    var pageSize = req.body.pageSize;
+    var agentId = '';
+    var hotelId = '';
+
+    var session = req.session;
+    if (session && session.agentId) {
+        agentId = session.agentId;
+    }
+    if (session && session.hotelId) {
+        hotelId = session.hotelId;
+    }
+    Order.list(pageNo, pageSize, key, agentId, hotelId, function(error, result) {
+        if (error) {
+            res.json({ result: 0, msg: error.message, data: {} });
+        } else {
+            var totalItems = result.count;
+            var list = result.rows;
+            res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list } });
+        }
+    });
+};
