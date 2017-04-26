@@ -36,8 +36,8 @@ exports.save = function(req, res, next) {
 exports.list = function(req, res, next) {
 
     var key = req.body.key;
-    var pageNo = req.body.pageNo;
-    var pageSize = req.body.pageSize;
+    var pageNo = Number(req.body.pageNo);
+    var pageSize = Number(req.body.pageSize);
     var agentId = req.body.agentId || '';
     var hotelId = req.body.hotelId || '';
 

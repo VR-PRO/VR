@@ -17,13 +17,18 @@ exports.save = function(_adv, callback) {
     });
 }
 
-exports.list = function(pageNo, pageSize, key, agentId, hotelId, callback) {
+exports.list = function(pageNo, pageSize, key, agentId, hotelId, st, et, callback) {
     var opt = {
         'limit': pageSize,
-        'offset': pageNo - 1
+        'offset': (pageNo - 1) * pageSize
     };
     key = key || '';
-    var w = {};
+    var w = {
+        created: {
+            $gte: st,
+            $lte: et
+        }
+    };
     if (key) {
         w.wxName = {
             $like: '%' + key + '%'

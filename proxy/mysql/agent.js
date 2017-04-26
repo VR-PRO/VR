@@ -21,7 +21,7 @@ exports.save = function(_agent, callback) {
 exports.list = function(pageNo, pageSize, name, callback) {
     var opt = {
         'limit': pageSize,
-        'offset': pageNo - 1
+        'offset': (pageNo - 1) * pageSize
     };
     if (name) {
         var w = {};

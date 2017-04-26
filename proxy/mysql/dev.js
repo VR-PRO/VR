@@ -35,7 +35,7 @@ exports.save = function(_dev, callback) {
 exports.list = function(pageNo, pageSize, key, agentId, hotelId, callback) {
     var opt = {
         'limit': pageSize,
-        'offset': pageNo - 1
+        'offset': (pageNo - 1) * pageSize
     };
     key = key || '';
     var w = {};

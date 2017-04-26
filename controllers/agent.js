@@ -32,8 +32,8 @@ exports.save = function(req, res, next) {
 };
 exports.list = function(req, res, next) {
     var name = req.body.name;
-    var pageNo = req.body.pageNo;
-    var pageSize = req.body.pageSize;
+    var pageNo = Number(req.body.pageNo);
+    var pageSize = Number(req.body.pageSize);
 
     Agent.list(pageNo, pageSize, name, function(error, result) {
         if (error) {

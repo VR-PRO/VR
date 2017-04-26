@@ -2,9 +2,12 @@ var Order = require('../proxy/mysql/order');
 
 
 exports.list = function(req, res, next) {
-    var key = req.body.key;
-    var pageNo = req.body.pageNo;
-    var pageSize = req.body.pageSize;
+    var key = req.body.key||'';
+    var pageNo = Number(req.body.pageNo);
+    var pageSize = Number(req.body.pageSize);
+    var st = req.body.st;
+    var et = req.body.et;
+
     var agentId = '';
     var hotelId = '';
 
@@ -15,7 +18,7 @@ exports.list = function(req, res, next) {
     if (session && session.hotelId) {
         hotelId = session.hotelId;
     }
-    Order.list(pageNo, pageSize, key, agentId, hotelId, function(error, result) {
+    Order.list(pageNo, pageSize, key, agentId, hotelId, st, et, function(error, result) {
         if (error) {
             res.json({ result: 0, msg: error.message, data: {} });
         } else {

@@ -62,5 +62,6 @@ router.post('/common/base/update', common.baseInfoUpdate);
 //order 路由
 router.post('/index/tj', order.tj);
 router.post('/index/tj/list', order.tjList);
+router.post('/order/list', order.list);
 
 module.exports = router;

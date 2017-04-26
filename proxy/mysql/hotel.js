@@ -22,7 +22,7 @@ exports.save = function(_hotel, callback) {
 exports.list = function(pageNo, pageSize, name, agentId, callback) {
     var opt = {
         'limit': pageSize,
-        'offset': pageNo - 1
+        'offset': (pageNo - 1) * pageSize
     };
     var w = {};
     if (name) { w.name = { $like: '%' + name + '%' }; }

@@ -174,6 +174,7 @@
     <!-- VR订单  开始-->
     <script type="text/ng-template" id="vr_order.html">
         <div data-ng-controller="OrderListController as orderListVm">
+
             <time-bar conf="orderListVm.directives.timeOptCfg"></time-bar>
 
             <div class="row">
@@ -185,7 +186,7 @@
                                 <span class="caption-subject font-green bold uppercase"> 订单管理 </span>
                             </div>
                             <div class="actions">
-                                <span class="caption-subject font-green uppercase">实收金额：¥25.00</span>
+                                <span class="caption-subject font-green uppercase">实收金额：¥{{orderListVm.page.vm.top.totalFee.toFixed(2)}}</span>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -194,8 +195,8 @@
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
                                         <div class="form-group pull-right">
-                                            <input class="form-control input-medium pull-left margin-right-10" id="" placeholder="请输入微信名进行搜索">
-                                            <button class="btn green border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                                            <input class="form-control input-medium pull-left margin-right-10" ng-model='orderListVm.page.vm.top.key' placeholder="请输入微信名进行搜索">
+                                            <button ng-readonly='orderListVm.loading' ng-disabled='orderListVm.loading' ng-click='orderListVm.page.event.rearch()' class="btn green border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
                                             <a data-toggle="modal" href="#filter" class="btn green btn-outline border-radius-5 pull-left margin-right-10">&nbsp;&nbsp;筛&nbsp;&nbsp;选&nbsp;&nbsp;</a>
                                         </div>
                                     </form>
@@ -214,34 +215,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td> 1 </td>
-                                        <td> 阿里巴巴 </td>
+                                    <tr ng-repeat='item in orderListVm.page.vm.list'>
+                                        <td> {{$index + 1}} </td>
+                                        <td> {{item.wxName}} </td>
                                         <td>
-                                            <div>起：2017-04-05 12：00</div>
-                                            <div>止：2017-04-05 14：00</div>
+                                            <div>起：{{item.st.substr(0,16)}}</div>
+                                            <div>止：{{item.et.substr(0,16)}}</div>
                                         </td>
-                                        <td> ¥20.00 </td>
-                                        <td> 大连-汉庭酒店 </td>
-                                        <td> 123489 </td>
-                                    </tr>
-                                    <tr>
-                                        <td> 2 </td>
-                                        <td> 四十大盗 </td>
-                                        <td>
-                                            <div>起：2017-04-05 12：00</div>
-                                            <div>止：2017-04-05 14：00</div>
-                                        </td>
-                                        <td> ¥5.00 </td>
-                                        <td> 大连-如家酒店 </td>
-                                        <td> 123409 </td>
+                                        <td> ¥{{item.realFee.toFixed(2)}} </td>
+                                        <td> {{item.addr}} </td>
+                                        <td> {{item.devCode}} </td>
                                     </tr>
                                 </tbody>
                             </table>
-
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <tm-pagination conf="orderListVm.pageCfg"></tm-pagination>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- END SAMPLE TABLE PORTLET-->
                 </div>
             </div>
 

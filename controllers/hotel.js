@@ -41,8 +41,8 @@ exports.save = function(req, res, next) {
 
 exports.list = function(req, res, next) {
     var name = req.body.name;
-    var pageNo = req.body.pageNo;
-    var pageSize = req.body.pageSize;
+    var pageNo = Number(req.body.pageNo);
+    var pageSize = Number(req.body.pageSize);
 
     var session = req.session;
     var agentId = '';
