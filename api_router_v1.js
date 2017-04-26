@@ -6,6 +6,30 @@ var express = require('express');
 var router = express.Router();
 var adv = require('./controllers/adv');
 
+
+
+//小程序端接口
+/**
+ * 根据二维码查询是否有订单信息
+ */
+router.get('/order/:qrcode', function() {});
+/**
+ * 微信支付回调接口
+ */
+router.get('/pay/success/:devCode/:orderId', function() {});
+/**
+ * 获取微信用户的信息(解密)
+ */
+router.get('/wx/user/:', function() {});
+
+//眼镜端接口
+router.post('/order/save/:qrcode', function() {});
+/**
+ * 影片是否可以观看
+ */
+router.get('/movie/isplay/:mkey', function() {})
+
+
 /*
   get /api/v1/adv/list 获取广告api接口
 
