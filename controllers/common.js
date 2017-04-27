@@ -63,7 +63,6 @@ exports.baseInfo = function(req, res, next) {
         }
     }
 }
-
 exports.baseInfoUpdate = function(req, res, next) {
     var session = req.session;
     var mobile = '';

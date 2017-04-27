@@ -52,7 +52,7 @@ exports.detail = function(devCode, callback) {
     return Order.findOne({
         where: {
             devCode: devCode,
-            orderStatus: 'S_DDZT_DFK', //未支付:S_DDZT_DFK    已支付:S_DDZT_YFK
+            payStatus: 'S_ZFZT_DZF'
         }
     }).then(function(result) {
         callback(null, result);
@@ -68,16 +68,16 @@ exports.tj = function(agent, hotel, dev, st, et, agentId, hotelId, callback) {
     var agentSql = 'SELECT SUM(o.realFee) AS income,SUM(o.realFee*a.rate/100) AS commission,COUNT(o.id) AS devCnt ' +
         ' FROM t_v_order o  ' +
         ' LEFT JOIN t_v_agent a ON a.id = o.agentId ' +
-        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.orderStatus ="S_DDZT_JYCG" ';
+        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.payStatus ="S_ZFZT_YZF" ';
     var hotelSql = 'SELECT SUM(o.realFee) AS income,SUM(o.realFee*a.rate/100) AS commission,COUNT(o.id) AS devCnt ' +
         ' FROM t_v_order o  ' +
         ' LEFT JOIN t_v_hotel a ON a.id = o.hotelId ' +
-        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.orderStatus ="S_DDZT_JYCG" ';
+        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.payStatus ="S_ZFZT_YZF" ';
     var devSql = 'SELECT SUM(o.realFee) AS income,SUM(o.realFee*a.rate/100) AS commission,COUNT(o.id) AS devCnt ' +
         ' FROM t_v_order o ' +
         ' LEFT JOIN t_v_dev  d ON d.devCode = o.devCode ' +
         ' LEFT JOIN t_v_hotel a ON a.id = o.hotelId ' +
-        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.orderStatus ="S_DDZT_JYCG" ';
+        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.payStatus ="S_ZFZT_YZF" ';
 
     if (agent) { sql = agentSql; }
     if (hotel && agentId) { sql = hotelSql + ' AND o.agentId=' + agentId; }
@@ -98,16 +98,16 @@ exports.tjList = function(agent, hotel, dev, st, et, agentId, hotelId, callback)
     var agentSql = 'SELECT SUM(o.realFee) AS income,SUM(o.realFee*a.rate/100) AS commission,COUNT(o.id) AS devCnt,a.name ' +
         ' FROM t_v_order o  ' +
         ' LEFT JOIN t_v_agent a ON a.id = o.agentId ' +
-        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.orderStatus ="S_DDZT_JYCG" GROUP BY o.agentId';
+        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.payStatus ="S_ZFZT_YZF" GROUP BY o.agentId';
     var hotelSql = 'SELECT SUM(o.realFee) AS income,SUM(o.realFee*a.rate/100) AS commission,COUNT(o.id) AS devCnt,a.name ' +
         ' FROM t_v_order o  ' +
         ' LEFT JOIN t_v_hotel a ON a.id = o.hotelId ' +
-        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.orderStatus ="S_DDZT_JYCG" ';
+        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.payStatus ="S_ZFZT_YZF" ';
     var devSql = 'SELECT SUM(o.realFee) AS income,SUM(o.realFee*a.rate/100) AS commission,COUNT(o.id) AS devCnt ,d.roomNum AS name' +
         ' FROM t_v_order o ' +
         ' LEFT JOIN t_v_dev  d ON d.devCode = o.devCode ' +
         ' LEFT JOIN t_v_hotel a ON a.id = o.hotelId ' +
-        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.orderStatus ="S_DDZT_JYCG" ';
+        ' WHERE o.created >= "' + st + '" AND o.created <= "' + et + '" AND o.payStatus ="S_ZFZT_YZF" ';
 
     if (agent) { sql = agentSql; }
     if (hotel && agentId) { sql = hotelSql + ' AND o.agentId=' + agentId + '  GROUP BY o.hotelId'; }

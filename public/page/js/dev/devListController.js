@@ -44,13 +44,21 @@
                     return false;
                 }
                 var errors = [];
+                var tempArr = [];
                 _.forEach(devListVm.page.vm.save.qrcodeList, function(item, index) {
                     if (item.qrcode == '') {
                         errors.push('第' + (index + 1) + '个二维码编号不可为空.');
                     }
+                    if (tempArr.indexOf(item.qrcode) == -1) {
+                        tempArr.push(item.qrcode);
+                    }
                 });
                 if (errors.length > 0) {
                     message.error(errors.join('<br/>'));
+                    return false;
+                }
+                if (tempArr.length != devListVm.page.vm.save.qrcodeList.length) {
+                    message.error('有重复的二维码信息.');
                     return false;
                 }
                 devListVm.page.vm.save.qrcodeList.push({ qrcode: '' });

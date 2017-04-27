@@ -111,3 +111,17 @@ exports.findAllByHotelIds = function(hotelIds, callback) {
         callback(error, null);
     });
 }
+
+exports.detailByQrcode = function(qrcode, callback) {
+    var sql = 'SELECT dev.devCode ' +
+        ' FROM t_v_dev dev ' +
+        ' LEFT JOIN t_v_dev_qrcode qrcode ON qrcode.devId = dev.id ' +
+        ' WHERE qrcode.qrCode = ' + qrcode;
+    sequelize.query(sql, {
+        type: sequelize.QueryTypes.SELECT
+    }).then(function(results) {
+        callback(null, results);
+    }).catch(function(error) {
+        callback(error, null);
+    });
+}

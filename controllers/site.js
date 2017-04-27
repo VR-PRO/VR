@@ -36,7 +36,6 @@ exports.login = function(req, res, next) {
                     req.session.login_error = '密码不正确';
                     res.redirect("/v_login");
                 } else {
-
                     switch (_user.type) {
                         case 'USER_TYPE_ADMIN':
                             {
