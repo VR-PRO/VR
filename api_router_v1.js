@@ -23,11 +23,19 @@ router.get('/pay/success/:devCode/:orderId', function() {});
 router.get('/wx/user/:', function() {});
 
 //眼镜端接口
-router.post('/order/save/:qrcode', function() {});
+/**
+ * 创建订单:
+ * 1:设备号
+ * 2:电影名称
+ * 3:唯一key值(看看能不能提供)
+ */
+router.post('/order/save', function() {});
 /**
  * 影片是否可以观看
+ * 1: 电影关键key
+ * 2: 设备号
  */
-router.get('/movie/isplay/:mkey', function() {})
+router.get('/movie/isplay/:mkey/:devcode', order.isplay);
 
 
 /*

@@ -6,12 +6,14 @@ var models = require('../../models/mysql');
 var Order = models.Order;
 var sequelize = models.sequelize;
 
-exports.save = function(_adv, callback) {
-    return Adv.create({
-        scope: _adv.scope,
-        img: _adv.img,
-        remark: _adv.remark,
-        sort: _adv.sort,
+exports.save = function(order, callback) {
+    return Order.create({
+        agentId: order.agentId,
+        hotelId: order.hotelId,
+        movieKey: order.movieKey,
+        realFee: order.realFee,
+        devCode: order.devCode,
+        addr: order.addr
     }).then(function(result) {
         callback(null, result);
     });
@@ -117,6 +119,21 @@ exports.tjList = function(agent, hotel, dev, st, et, agentId, hotelId, callback)
         type: sequelize.QueryTypes.SELECT
     }).then(function(results) {
         callback(null, results);
+    }).catch(function(error) {
+        callback(error, null);
+    });
+}
+
+
+exports.isplay = function(devcode, movieKey, callback) {
+    return Order.findOne({
+        where: {
+            movieKey: movieKey,
+            devCode: devCode,
+            payStatus: 'S_ZFZT_YZF'
+        }
+    }).then(function(result) {
+        callback(null, result);
     }).catch(function(error) {
         callback(error, null);
     });

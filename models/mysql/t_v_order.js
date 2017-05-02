@@ -13,7 +13,7 @@ module.exports = function(sequelize, Sequelize) {
         devCode: { type: Sequelize.STRING, field: 'devCode', comment: '设备号码' },
         addr: { type: Sequelize.STRING, field: 'addr', comment: '消费地点' },
         created: { type: Sequelize.DATE, field: 'created', comment: '创建时间', defaultValue: Sequelize.NOW },
-        payStatus: { type: Sequelize.STRING, field: 'payStatus', comment: '支付状态 S_ZFZT_DZF  S_ZFZT_YZF' },
+        payStatus: { type: Sequelize.STRING, field: 'payStatus', comment: '支付状态 S_ZFZT_DZF  S_ZFZT_YZF', defaultValue: 'S_ZFZT_DZF' },
         isPlay: { type: Sequelize.BOOLEAN, field: 'isPlay', comment: '是否允许播放该电影,24小时后自动失效。', defaultValue: 0 },
         status: { type: Sequelize.BOOLEAN, field: 'status', comment: '状态', defaultValue: 1 }
     }, {
