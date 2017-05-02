@@ -138,15 +138,20 @@ exports.detailByQrcode = function(req, res, next) {
             if (error) {
                 res.json({ result: 0, msg: '二维码无效', data: {} });
             } else {
-                var devCode = result.devCode;
-                if (devCode) {
-                    Order.detail(devCode, function(error, result) {
-                        if (error) {
-                            res.json({ result: 0, msg: '', data: {} });
-                        } else {
-                            res.json({ result: 1, msg: '', data: result });
-                        }
-                    });
+                var len = result.length;
+                if (len == 1) {
+                    var devCode = result[0].devCode;
+                    if (devCode) {
+                        Order.detail(devCode, function(error, result) {
+                            if (error) {
+                                res.json({ result: 0, msg: '', data: {} });
+                            } else {
+                                res.json({ result: 1, msg: '', data: result });
+                            }
+                        });
+                    } else {
+                        res.json({ result: 0, msg: '二维码无效', data: {} });
+                    }
                 } else {
                     res.json({ result: 0, msg: '二维码无效', data: {} });
                 }
