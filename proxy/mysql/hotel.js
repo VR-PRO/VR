@@ -64,3 +64,13 @@ exports.update = function(hotel, callback) {
         callback(err, null);
     });
 }
+
+exports.detailById = function(hotelId, callback) {
+    Hotel.findOne({
+        id: hotelId
+    }).then(function(hotel) {
+        callback(null, hotel);
+    }).catch(function(error) {
+        callback(error, null);
+    })
+}

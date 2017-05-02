@@ -125,3 +125,13 @@ exports.detailByQrcode = function(qrcode, callback) {
         callback(error, null);
     });
 }
+
+exports.detailByDevCode = function(devCode, callback) {
+    Dev.findOne({
+        devCode: devCode
+    }).then(function(result) {
+        callback(null, result);
+    }).catch(function(error) {
+        callback(error, null);
+    });
+}

@@ -29,7 +29,7 @@ router.get('/wx/user/:', function() {});
  * 2:电影名称
  * 3:唯一key值(看看能不能提供)
  */
-router.post('/order/save', function() {});
+router.post('/order/save', order.save);
 /**
  * 影片是否可以观看
  * 1: 电影关键key

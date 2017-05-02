@@ -1,18 +1,57 @@
 var Order = require('../proxy/mysql/order');
 var Dev = require('../proxy/mysql/dev');
+var Hotel = require('../proxy/mysql/hotel');
 
 exports.save = function(req, res, next) {
-    var agentId = order.agentId;
-    var hotelId = order.hotelId;
+    var agentId = '';
+    var hotelId = '';
+    var addr = '';
+
     var movieKey = order.movieKey;
     var realFee = order.realFee;
     var devCode = order.devCode;
-    var addr = order.addr;
-    Order.save({
 
-    }, function(error, ) {
+    Dev.detailByDevCode(devCode, function(error, result) {
+        if (error) {
+            res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
+        } else {
+            var len = result.length;
+            if (len > 0) {
+                var _dev = result[0];
+                agentId = _dev.agentId;
+                hotelId = _dev.hotelId;
+
+                Hotel.detailById(hotelId, function(error, hotels) {
+                    if (error) {
+                        res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
+                    } else {
+                        var hLen = hotels.length;
+                        if (hLen > 0) {
+                            var hotel = hotels[0];
+                            Order.save({
+                                agentId: agentId,
+                                hotelId: hotelId,
+                                movieKey: movieKey,
+                                realFee: realFee,
+                                devCode: devCode,
+                                addr: hotel.addr
+                            }, function(error, result) {
+                                if (error) {
+                                    res.json({ result: 0, msg: '创建订单失败.', data: {} });
+                                } else {
+                                    res.json({ result: 1, msg: '创建订单成功.', data: { result } });
+                                }
+                            });
+                        }
+                    }
+                });
+            } else {
+                res.json({ result: 0, msg: '创建订单失败.', data: {} });
+            }
+        }
 
     });
+
 }
 
 exports.list = function(req, res, next) {
