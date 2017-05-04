@@ -139,3 +139,17 @@ exports.isplay = function(devcode, movieKey, callback) {
         callback(error, null);
     });
 }
+
+
+exports.detailByDevCode = function(devCode, callback) {
+    return Order.findAll({
+        where: {
+            devCode: devCode,
+            payStatus: 'S_ZFZT_DZF'
+        }
+    }).then(function(result) {
+        callback(null, result);
+    }).catch(function(error) {
+        callback(error, null);
+    });
+}

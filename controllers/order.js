@@ -11,42 +11,58 @@ exports.save = function(req, res, next) {
     var devCode = req.body.devCode;
     var movieName = req.body.movieName;
 
-    Dev.detailByDevCode(devCode, function(error, result) {
+
+    /**
+     * 验证是否该设备号有未完成的订单
+     */
+
+    Order.detailByDevCode(devCode, function(error, result) {
         if (error) {
             res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
         } else {
-            if (result) {
-                agentId = result.agentId;
-                hotelId = result.hotelId;
-
-                Hotel.detailById(hotelId, function(error, hotel) {
+            var len = result.length;
+            if (len > 0) {
+                res.json({ result: 0, msg: '创建订单失败.\r\n 有未支付的订单,请扫描后重新下单。', data: {} });
+            } else {
+                Dev.detailByDevCode(devCode, function(error, result) {
                     if (error) {
                         res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
                     } else {
-                        if (hotel) {
-                            Order.save({
-                                movieName: movieName,
-                                agentId: agentId,
-                                hotelId: hotelId,
-                                movieKey: movieKey,
-                                realFee: realFee,
-                                devCode: devCode,
-                                addr: hotel.addr
-                            }, function(error, result) {
+                        if (result) {
+
+                            agentId = result.agentId;
+                            hotelId = result.hotelId;
+
+                            Hotel.detailById(hotelId, function(error, hotel) {
                                 if (error) {
-                                    res.json({ result: 0, msg: '创建订单失败.', data: {} });
+                                    res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
                                 } else {
-                                    res.json({ result: 1, msg: '创建订单成功.', data: { result: result } });
+                                    if (hotel) {
+                                        Order.save({
+                                            movieName: movieName,
+                                            agentId: agentId,
+                                            hotelId: hotelId,
+                                            movieKey: movieKey,
+                                            realFee: realFee,
+                                            devCode: devCode,
+                                            addr: hotel.addr
+                                        }, function(error, result) {
+                                            if (error) {
+                                                res.json({ result: 0, msg: '创建订单失败.', data: {} });
+                                            } else {
+                                                res.json({ result: 1, msg: '创建订单成功.', data: { result: result } });
+                                            }
+                                        });
+                                    }
                                 }
                             });
+                        } else {
+                            res.json({ result: 0, msg: '创建订单失败.', data: {} });
                         }
                     }
                 });
-            } else {
-                res.json({ result: 0, msg: '创建订单失败.', data: {} });
             }
         }
-
     });
 
 }
