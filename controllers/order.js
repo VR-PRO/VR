@@ -5,30 +5,27 @@ var Hotel = require('../proxy/mysql/hotel');
 exports.save = function(req, res, next) {
     var agentId = '';
     var hotelId = '';
-    var addr = '';
 
-    var movieKey = order.movieKey;
-    var realFee = order.realFee;
-    var devCode = order.devCode;
+    var movieKey = req.body.movieKey;
+    var realFee = req.body.realFee;
+    var devCode = req.body.devCode;
+    var movieName = req.body.movieName;
 
     Dev.detailByDevCode(devCode, function(error, result) {
         if (error) {
             res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
         } else {
-            var len = result.length;
-            if (len > 0) {
-                var _dev = result[0];
-                agentId = _dev.agentId;
-                hotelId = _dev.hotelId;
+            if (result) {
+                agentId = result.agentId;
+                hotelId = result.hotelId;
 
-                Hotel.detailById(hotelId, function(error, hotels) {
+                Hotel.detailById(hotelId, function(error, hotel) {
                     if (error) {
                         res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
                     } else {
-                        var hLen = hotels.length;
-                        if (hLen > 0) {
-                            var hotel = hotels[0];
+                        if (hotel) {
                             Order.save({
+                                movieName: movieName,
                                 agentId: agentId,
                                 hotelId: hotelId,
                                 movieKey: movieKey,
@@ -39,7 +36,7 @@ exports.save = function(req, res, next) {
                                 if (error) {
                                     res.json({ result: 0, msg: '创建订单失败.', data: {} });
                                 } else {
-                                    res.json({ result: 1, msg: '创建订单成功.', data: { result } });
+                                    res.json({ result: 1, msg: '创建订单成功.', data: { result: result } });
                                 }
                             });
                         }

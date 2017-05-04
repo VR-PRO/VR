@@ -8,6 +8,7 @@ var sequelize = models.sequelize;
 
 exports.save = function(order, callback) {
     return Order.create({
+        movieName: order.movieName,
         agentId: order.agentId,
         hotelId: order.hotelId,
         movieKey: order.movieKey,
