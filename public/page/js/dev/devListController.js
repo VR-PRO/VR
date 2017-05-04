@@ -76,11 +76,14 @@
                     return false;
                 }
 
-
+                var existsArr = [];
                 var errors = [];
                 _.forEach(devListVm.page.vm.save.qrcodeList, function(item, index) {
                     if (item.qrcode == '') {
                         errors.push('第' + (index + 1) + '个二维码编号不可为空.');
+                    }
+                    if (existsArr.indexOf(item.qrcode) == -1) {
+                        existsArr.push(item.qrcode);
                     }
                 });
                 if (errors.length > 0) {
@@ -88,14 +91,8 @@
                     return false;
                 }
                 //是否有重复的二维码
-                var existsArr = [];
-                _.forEach(devListVm.page.vm.save.qrcodeList, function(item, index) {
-                    if (existsArr.indexOf(item.qrcode) >= 0) {
-                        existsArr.push('二维码重复');
-                    }
-                });
-                if (existsArr.length > 0) {
-                    message.error('二维码有重复.');
+                if (existsArr.length != devListVm.page.vm.save.qrcodeList.length) {
+                    message.error('有重复的二维码信息.');
                     return false;
                 }
 

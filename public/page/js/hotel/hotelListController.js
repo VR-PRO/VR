@@ -30,6 +30,7 @@
             validate: function(data) {
                 if (data.name == '') { message.error('名称不可为空.'); return false; }
                 if (!vrHelper.validate.mobile(data.mobile)) { message.error('手机号格式不正确.'); return false; }
+                if (data.rate == '') { message.error('分成比例不可为空.'); return false; }
                 if (!vrHelper.validate.number(data.rate)) { message.error('分成比例格式不正确.'); return false; }
                 if (!vrHelper.validate.pwd(data.pwd)) { message.error('初始密码格式不正确.'); return false; }
                 return true;
