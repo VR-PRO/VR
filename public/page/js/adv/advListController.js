@@ -28,12 +28,18 @@
                     message.error('最多添加5条广告信息.');
                     return false;
                 }
-                advListVm.page.vm.save.imgCode = '';
-                advListVm.page.vm.save.scope = '全国';
-                advListVm.page.vm.save.remark = '';
+
+
+                setTimeout(function() {
+                    advListVm.page.vm.save.scope = '全国';
+                    advListVm.page.vm.save.remark = '';
+                    advListVm.page.vm.save.imgCode = '';
+                    $scope.$apply();
+                }, 0);
 
                 $("#uploadFormFile").val(null);
                 document.getElementById("uploadForm").reset();
+                $('#uploadImg').attr("src", '');
 
                 $("#vrAdvSaveViewModal").modal('show');
             },

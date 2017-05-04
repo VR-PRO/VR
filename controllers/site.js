@@ -21,7 +21,6 @@ exports.v_login = function(req, res, next) {
 exports.login = function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
-
     req.session.login_error = '';
     req.session.vr_u = null;
 
