@@ -41,7 +41,7 @@ exports.list = function(req, res, next) {
         } else {
             var totalItems = result.count;
             var list = result.rows;
-            if(totalItems>0){
+            if (totalItems > 0) {
                 var agentIds = [];
                 _.forEach(result.rows, function(item) {
                     agentIds.push(item.id);
@@ -54,7 +54,7 @@ exports.list = function(req, res, next) {
                         res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list, devArr: _result } });
                     }
                 });
-            }else{
+            } else {
                 res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list, devArr: [] } });
             }
         }
@@ -72,6 +72,16 @@ exports.detail = function(req, res, next) {
             res.json({ result: 0, msg: '', data: {} });
         } else {
             res.json({ result: 1, msg: '', data: agent });
+        }
+    });
+}
+
+exports.findAll = function(req, res, next) {
+    Agent.findAll(function(error, result) {
+        if (error) {
+            res.json({ result: 0, msg: error.message, data: [] });
+        } else {
+            res.json({ result: 1, msg: '', data: result });
         }
     });
 }

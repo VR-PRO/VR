@@ -45,11 +45,13 @@ router.post('/user/check', user.check);
 router.post('/agent/save', agent.save);
 router.post('/agent/list', agent.list);
 router.post('/agent/detail', agent.detail);
+router.post('/agent/list/all', agent.findAll);
 
 //hotel 路由
 router.post('/hotel/save', hotel.save);
 router.post('/hotel/list', hotel.list);
 router.post('/hotel/detail', hotel.detail);
+router.post('/hotel/list/agentId', hotel.listByAgentId);
 
 //adv 路由
 router.post('/adv/save', adv.save);

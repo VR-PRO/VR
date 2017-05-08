@@ -45,8 +45,6 @@ exports.detail = function(userId, callback) {
         callback(error, null);
     })
 }
-
-
 exports.update = function(hotel, callback) {
     Hotel.update({
         name: hotel.name,
@@ -64,7 +62,6 @@ exports.update = function(hotel, callback) {
         callback(err, null);
     });
 }
-
 exports.detailById = function(hotelId, callback) {
     Hotel.findOne({
         id: hotelId
@@ -73,4 +70,15 @@ exports.detailById = function(hotelId, callback) {
     }).catch(function(error) {
         callback(error, null);
     })
+}
+exports.listByAgentId = function(agentId, callback) {
+    Hotel.findAll({
+        agentId: agentId
+    }).then(function(result) {
+        callback(null, result);
+    }).catch(function(error) {
+        if (error) {
+            callback(error, null);
+        }
+    });
 }

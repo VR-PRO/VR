@@ -74,15 +74,15 @@ exports.list = function(req, res, next) {
     var st = req.body.st;
     var et = req.body.et;
 
-    var agentId = '';
-    var hotelId = '';
+    var agentId = req.body.agentId;
+    var hotelId = req.body.hotelId;
 
     var session = req.session;
-    if (session && session.agentId) {
-        agentId = session.agentId;
+    if (!agentId && session && session.agentId) {
+        agentId = [session.agentId];
     }
-    if (session && session.hotelId) {
-        hotelId = session.hotelId;
+    if (!hotelId && session && session.hotelId) {
+        hotelId =[session.hotelId];
     }
     Order.list(pageNo, pageSize, key, agentId, hotelId, st, et, function(error, result) {
         if (error) {

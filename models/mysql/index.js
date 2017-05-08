@@ -17,11 +17,11 @@ var Order = sequelize.import('./t_v_order.js');
 
 // 同步模型到数据库中
 sequelize.sync().then(function() {
-    User.create({
-        mobile: '13478659803',
-        pwd: 'JdVa0oOqQAr0ZMdtcTwHrQ==',
-        type: 'USER_TYPE_ADMIN'
-    });
+    // User.create({
+    //     mobile: '13478659803',
+    //     pwd: 'JdVa0oOqQAr0ZMdtcTwHrQ==',
+    //     type: 'USER_TYPE_ADMIN'
+    // });
 });
 
 exports.User = User;

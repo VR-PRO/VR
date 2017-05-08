@@ -55,7 +55,7 @@ exports.list = function(req, res, next) {
         } else {
             var totalItems = result.count;
             var list = result.rows;
-            if(totalItems>0){
+            if (totalItems > 0) {
                 var hotels = [];
                 _.forEach(result.rows, function(item) {
                     hotels.push(item.id);
@@ -68,7 +68,7 @@ exports.list = function(req, res, next) {
                         res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list, devArr: _result } });
                     }
                 });
-            }else{
+            } else {
                 res.json({ result: 1, msg: '', data: { totalItems: totalItems, list: list, devArr: [] } });
             }
         }
@@ -88,4 +88,23 @@ exports.detail = function(req, res, next) {
             res.json({ result: 0, msg: '', data: error.message });
         }
     });
+}
+
+exports.listByAgentId = function(req, res, next) {
+    var agentId = req.body.agentId;
+    var session = req.session;
+    if (!agentId && session && session.agentId) {
+        agentId = session.agentId;
+    }
+    if (agentId) {
+        Hotel.listByAgentId(agentId, function(error, result) {
+            if (error) {
+                res.json({ result: 0, msg: error.message, data: [] });
+            } else {
+                res.json({ result: 1, msg: '', data: result });
+            }
+        });
+    } else {
+        res.json({ result: 1, msg: '', data: [] });
+    }
 }

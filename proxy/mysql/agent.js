@@ -64,3 +64,11 @@ exports.update = function(agent, callback) {
         callback(err, null);
     });
 }
+
+exports.findAll = function(callback) {
+    Agent.findAll().then(function(result) {
+        callback && callback(null, result);
+    }).catch(function(error) {
+        callback && callback(error, null);
+    });
+}

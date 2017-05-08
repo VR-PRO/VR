@@ -20,7 +20,7 @@ exports.save = function(order, callback) {
     });
 }
 
-exports.list = function(pageNo, pageSize, key, agentId, hotelId, st, et, callback) {
+exports.list = function(pageNo, pageSize, key, agentIds, hotelIds, st, et, callback) {
     var opt = {
         'limit': pageSize,
         'offset': (pageNo - 1) * pageSize
@@ -37,11 +37,15 @@ exports.list = function(pageNo, pageSize, key, agentId, hotelId, st, et, callbac
             $like: '%' + key + '%'
         };
     }
-    if (agentId) {
-        w.agentId = agentId;
+    if (agentIds) {
+        w.agentId = {
+            $in: agentIds
+        };
     }
-    if (hotelId) {
-        w.hotelId = hotelId;
+    if (hotelIds) {
+        w.hotelId = {
+            $in: hotelIds
+        };
     }
     opt.where = w;
     return Order.findAndCountAll(opt).then(function(result) {
