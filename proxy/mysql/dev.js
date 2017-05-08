@@ -32,7 +32,7 @@ exports.save = function(_dev, callback) {
     });
 }
 
-exports.list = function(pageNo, pageSize, key, agentId, hotelId, callback) {
+exports.list = function(pageNo, pageSize, key, agentIds, hotelIds, callback) {
     var opt = {
         'limit': pageSize,
         'offset': (pageNo - 1) * pageSize
@@ -46,12 +46,18 @@ exports.list = function(pageNo, pageSize, key, agentId, hotelId, callback) {
             { qrCodes: { $like: '%' + key + '%' } }
         ];
     }
-    if (agentId) {
-        w.agentId = agentId;
+
+    if (agentIds && agentIds.length > 0) {
+        w.agentId = {
+            $in: agentIds
+        };
     }
-    if (hotelId) {
-        w.hotelId = hotelId;
+    if (hotelIds && hotelIds.length > 0) {
+        w.hotelId = {
+            $in: hotelIds
+        };
     }
+
     opt.where = w;
     return Dev.findAndCountAll(opt).then(function(result) {
         callback(null, result);
@@ -128,7 +134,9 @@ exports.detailByQrcode = function(qrcode, callback) {
 
 exports.detailByDevCode = function(devCode, callback) {
     Dev.findOne({
-        devCode: devCode
+        where: {
+            devCode: devCode
+        }
     }).then(function(result) {
         callback(null, result);
     }).catch(function(error) {

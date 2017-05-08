@@ -37,12 +37,12 @@ exports.list = function(pageNo, pageSize, key, agentIds, hotelIds, st, et, callb
             $like: '%' + key + '%'
         };
     }
-    if (agentIds) {
+    if (agentIds && agentIds.length > 0) {
         w.agentId = {
             $in: agentIds
         };
     }
-    if (hotelIds) {
+    if (hotelIds && hotelIds.length > 0) {
         w.hotelId = {
             $in: hotelIds
         };

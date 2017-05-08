@@ -64,7 +64,9 @@ exports.update = function(hotel, callback) {
 }
 exports.detailById = function(hotelId, callback) {
     Hotel.findOne({
-        id: hotelId
+        where: {
+            id: hotelId
+        }
     }).then(function(hotel) {
         callback(null, hotel);
     }).catch(function(error) {
@@ -73,7 +75,9 @@ exports.detailById = function(hotelId, callback) {
 }
 exports.listByAgentId = function(agentId, callback) {
     Hotel.findAll({
-        agentId: agentId
+        where: {
+            agentId: agentId
+        }
     }).then(function(result) {
         callback(null, result);
     }).catch(function(error) {

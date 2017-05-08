@@ -17,8 +17,8 @@
                 list: '/dev/list',
                 save: '/dev/save',
                 check: '/dev/check',
-                agentList: '',
-                hotelList: '',
+                agent_list_all: '/agent/list/all',
+                hotel_list_agentId: '/hotel/list/agentId',
             };
         devListVm.loading = false;
 
@@ -131,11 +131,26 @@
                 if (key) {
                     data.key = key;
                 }
-                if (agentId) {
-                    data.agentId = agentId;
+
+                var agentIds = devListVm.page.vm.agentIds;
+                var hotelIds = devListVm.page.vm.hotelIds;
+                if (agentIds && agentIds.length > 0) {
+                    var tempArr = [];
+                    _.forEach(agentIds, function(item) {
+                        if (item != 'all') {
+                            tempArr.push(item);
+                        }
+                    });
+                    data.agentId = tempArr;
                 }
-                if (hotelId) {
-                    data.hotelId = hotelId;
+                if (hotelIds && hotelIds.length > 0) {
+                    var tempArr = [];
+                    _.forEach(hotelIds, function(item) {
+                        if (item != 'all') {
+                            tempArr.push(item);
+                        }
+                    });
+                    data.hotelId = tempArr;
                 }
                 vrHelper.jqAjax(urls.list, data, function(res) {
                     var data = res.data;
@@ -156,6 +171,10 @@
                 }, 'POST', false, 'devPageLoadId');
             },
             init: function() {
+                var inputUserType = $('#inputUserType').val();
+                devListVm.page.vm.userType = inputUserType;
+
+                devListVm.pageCfg.currentPage = 1;
                 opt.list();
             },
             rearch: function() {
@@ -182,34 +201,56 @@
                     $scope.$apply();
                 }, 'POST');
             },
-            agentList: function() {
-                vrHelper.jqAjax(urls.agentList, data, function(res) {
-                    var data = res.data;
-                    var tempArr = [];
-                    tempArr.push({ txt: '全部', id: '' });
-                    angular.forEach(data, function(item) {
-                        tempArr.puhs();
-                    });
-                    devListVm.page.vm.agentList = tempArr;
-                    devListVm.loading = false;
-                    $scope.$apply();
-                }, function(err) {
-                    devListVm.loading = false;
-                    $scope.$apply();
-                }, 'POST', false, 'devPageLoadId');
-            },
             hotelList: function() {
-
+                var param = [];
+                if (devListVm.page.vm.agentIds.length == 1) {
+                    param.push('agentId=' + devListVm.page.vm.agentIds[0]);
+                }
+                vrHelper.jqAjax(urls.hotel_list_agentId, param.join('&'), function(json) {
+                    var list = json.data || [];
+                    var temp = [];
+                    temp.push({ text: '全部', hotelId: 'all' });
+                    _.forEach(list, function(item) {
+                        temp.push({ text: item.name, hotelId: item.id });
+                    });
+                    devListVm.page.vm.hotelList = temp;
+                    $scope.$apply();
+                }, function() {}, 'POST', false, 'divInfoFliterLoad');
+            },
+            agentList: function() {
+                vrHelper.jqAjax(urls.agent_list_all, '', function(json) {
+                    var list = json.data || [];
+                    var temp = [];
+                    temp.push({ text: '全部', agentId: 'all' });
+                    _.forEach(list, function(item) {
+                        temp.push({ text: item.name, agentId: item.id });
+                    });
+                    devListVm.page.vm.agentList = temp;
+                    $scope.$apply();
+                }, function() {}, 'POST', false, 'divInfoFliterLoad');
+            },
+            filterSubmit: function() {
+                $("#divInfoFliter").modal('hide');
+                devListVm.pageCfg.currentPage = 1;
+                opt.list();
             },
             viewFliterModal: function() {
-                //$('#divInfoFliter').modal('show');
+                if (devListVm.page.vm.userType == 'USER_TYPE_ADMIN') {
+                    opt.agentList();
+                } else if (devListVm.page.vm.userType == 'USER_TYPE_AGENT') {
+                    opt.hotelList();
+                }
+                $('#divInfoFliter').modal('show');
             }
         };
 
-        devListVm.page = { //devListVm.page.event.rearch
+        devListVm.page = { //devListVm.page.event.viewFliterModal
             vm: {
-                agentList: [],
-                hotelList: [],
+                userType: '',
+                agentIds: [], //devListVm.page.vm.agentIds
+                agentList: [], //devListVm.page.vm.agentList
+                hotelIds: [], //devListVm.page.vm.hotelIds
+                hotelList: [], //devListVm.page.vm.hotelList
                 list: [],
                 key: '', //devListVm.page.vm.key
                 save: {
@@ -224,7 +265,99 @@
                 qrcodeRemove: opt.qrcodeRemove,
                 save: opt.save,
                 rearch: opt.rearch,
-                viewFliterModal: opt.viewFliterModal
+                viewFliterModal: opt.viewFliterModal,
+                filterSubmit: opt.filterSubmit,
+                hotelItemClick: function(event, index) { //devListVm.page.event.hotelItemClick
+                    var cur = devListVm.page.vm.hotelList[index];
+                    if (cur) {
+                        if (cur.hotelId == 'all') {
+                            var _index = devListVm.page.vm.hotelIds.indexOf(cur.hotelId);
+                            if (_index == -1) {
+                                var temp = [];
+                                temp.push('all');
+                                _.forEach(devListVm.page.vm.hotelList, function(item) {
+                                    temp.push(item.hotelId);
+                                });
+                                devListVm.page.vm.hotelIds = temp;
+                            } else {
+                                devListVm.page.vm.hotelIds = [];
+                            }
+                        } else {
+                            var _index = devListVm.page.vm.hotelIds.indexOf(cur.hotelId);
+                            if (_index == -1) {
+                                devListVm.page.vm.hotelIds.push(cur.hotelId);
+
+                                var hotelListLen = devListVm.page.vm.hotelList.length;
+                                var hotelIdsLen = devListVm.page.vm.hotelIds.length;
+                                if (hotelListLen == hotelIdsLen + 1) {
+                                    var allIndex = devListVm.page.vm.hotelIds.indexOf('all');
+                                    if (allIndex == -1) {
+                                        devListVm.page.vm.hotelIds.push('all');
+                                    }
+                                }
+                            } else {
+                                devListVm.page.vm.hotelIds.splice(_index, 1);
+                                var hotelListLen = devListVm.page.vm.hotelList.length;
+                                var hotelIdsLen = devListVm.page.vm.hotelIds.length;
+                                if (hotelListLen != hotelIdsLen) {
+                                    var allIndex = devListVm.page.vm.hotelIds.indexOf('all');
+                                    if (allIndex >= 0) {
+                                        devListVm.page.vm.hotelIds.splice(allIndex, 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                agentItemClick: function(event, index) { //devListVm.page.event.agentItemClick
+                    var cur = devListVm.page.vm.agentList[index];
+                    if (cur) {
+                        if (cur.agentId == 'all') {
+                            var _index = devListVm.page.vm.agentIds.indexOf(cur.agentId);
+                            if (_index == -1) {
+                                var temp = [];
+                                temp.push('all');
+                                _.forEach(devListVm.page.vm.agentList, function(item) {
+                                    temp.push(item.agentId);
+                                });
+                                devListVm.page.vm.agentIds = temp;
+                            } else {
+                                devListVm.page.vm.agentIds = [];
+                            }
+                        } else {
+                            var _index = devListVm.page.vm.agentIds.indexOf(cur.agentId);
+                            if (_index == -1) {
+                                devListVm.page.vm.agentIds.push(cur.agentId);
+
+                                var agentListLen = devListVm.page.vm.agentList.length;
+                                var agentIdsLen = devListVm.page.vm.agentIds.length;
+                                if (agentListLen == agentIdsLen + 1) {
+                                    var allIndex = devListVm.page.vm.agentIds.indexOf('all');
+                                    if (allIndex == -1) {
+                                        devListVm.page.vm.agentIds.push('all');
+                                    }
+                                }
+                            } else {
+                                devListVm.page.vm.agentIds.splice(_index, 1);
+                                var agentListLen = devListVm.page.vm.agentList.length;
+                                var agentIdsLen = devListVm.page.vm.agentIds.length;
+                                if (agentListLen != agentIdsLen) {
+                                    var allIndex = devListVm.page.vm.agentIds.indexOf('all');
+                                    if (allIndex >= 0) {
+                                        devListVm.page.vm.agentIds.splice(allIndex, 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    var len = devListVm.page.vm.agentIds.length;
+                    if (len == 1 && devListVm.page.vm.agentIds.indexOf('all') == -1) {
+                        opt.hotelList();
+                    } else {
+                        devListVm.page.vm.hotelIds = [];
+                        devListVm.page.vm.hotelList = [];
+                    }
+                },
             }
         };
 
@@ -241,8 +374,8 @@
                 opt.list();
             },
             onInit: function() {
-                devListVm.pageCfg.currentPage = 1;
-                opt.list();
+                opt.init();
+
             }
         };
     }

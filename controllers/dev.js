@@ -38,17 +38,16 @@ exports.list = function(req, res, next) {
     var key = req.body.key;
     var pageNo = Number(req.body.pageNo);
     var pageSize = Number(req.body.pageSize);
-    var agentId = req.body.agentId || '';
-    var hotelId = req.body.hotelId || '';
 
-    if (agentId == '' && hotelId == '') {
-        var session = req.session;
-        if (session && session.agentId) {
-            agentId = session.agentId;
-        }
-        if (session && session.hotelId) {
-            hotelId = session.hotelId;
-        }
+    var agentId = req.body.agentId;
+    var hotelId = req.body.hotelId;
+
+    var session = req.session;
+    if (!agentId && session && session.agentId) {
+        agentId = [session.agentId];
+    }
+    if (!hotelId && session && session.hotelId) {
+        hotelId = [session.hotelId];
     }
 
     Dev.list(pageNo, pageSize, key, agentId, hotelId, function(error, result) {
