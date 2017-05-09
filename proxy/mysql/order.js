@@ -157,3 +157,14 @@ exports.detailByDevCode = function(devCode, callback) {
         callback(error, null);
     });
 }
+
+exports.updateIsPlay = function(callback) {
+    var sql = 'UPDATE t_v_order o SET o.isPlay = 0 WHERE o.isPlay = 1 AND  ADDDATE(o.created,INTERVAL 24 HOUR ) <= NOW()';
+    sequelize.query(sql, {
+        type: sequelize.QueryTypes.UPDATE
+    }).then(function(results) {
+        callback(null, results);
+    }).catch(function(error) {
+        callback(error, null);
+    });
+}

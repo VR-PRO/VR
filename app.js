@@ -16,6 +16,9 @@ var app = express();
 var logger = require('./common/logger');
 var config = require('./config');
 
+var schedule = require('./common/schedule');
+schedule.clearMovieOrder();
+
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
 
