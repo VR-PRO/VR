@@ -6,8 +6,8 @@ var schedule = require('node-schedule');
 var Order = require('../proxy/mysql/order');
 var moment = require('moment');
 
-exports.clearMovieOrder = function() {
-
+function clearMovieOrder() {
+    console.log('task is runing ...');
     var rule = new schedule.RecurrenceRule();
     //rule.second = 0; //每分钟的 60秒执行
     rule.minute = 60; //每小时的 60分执行
@@ -20,9 +20,8 @@ exports.clearMovieOrder = function() {
             }
         });
     });
-
 }
-
+clearMovieOrder();
 /**
  
 使用方法

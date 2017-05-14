@@ -16,6 +16,8 @@ var agent = require('./controllers/agent');
 var hotel = require('./controllers/hotel');
 var adv = require('./controllers/adv');
 var order = require('./controllers/order');
+var qrcode_info = require('./controllers/qrcode_info');
+var qrcode = require('./controllers/qrcode');
 var common = require('./controllers/common');
 
 
@@ -65,5 +67,13 @@ router.post('/common/base/update', common.baseInfoUpdate);
 router.post('/index/tj', order.tj);
 router.post('/index/tj/list', order.tjList);
 router.post('/order/list', order.list);
+
+/**
+ * 二维码
+ */
+router.post('/qrcode/info/save', qrcode_info.save);
+router.post('/qrcode/info/list', qrcode_info.list);
+router.post('/qrcode/list', qrcode.list);
+router.get('/qrcode/exportExcel/:id', common.exportExcel); //跳转到后台
 
 module.exports = router;

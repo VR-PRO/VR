@@ -15,9 +15,7 @@ var cors = require('cors');
 var app = express();
 var logger = require('./common/logger');
 var config = require('./config');
-
-var schedule = require('./common/schedule');
-schedule.clearMovieOrder();
+var schedule = require('node-schedule');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -29,7 +27,6 @@ app.engine('.html', require('ejs').__express);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
-
 app.use(session({
     secret: config.session_secret,
     resave: true,
@@ -63,7 +60,6 @@ if (config.debug) {
         return res.status(500).send('500 status');
     });
 }
-
 
 if (!module.parent) {
     app.listen(3000, function() {

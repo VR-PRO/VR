@@ -3,6 +3,10 @@
  */
 
 var config = {
+    cryptoKey: 'dl_vr_mt20170514', //加密和解密的KEY
+    //cryptoKey: '751f621ea5c8f930', //加密和解密的KEY
+    cryptoIv: '2017051322222201', //加密和解密的向量
+    // cryptoIv: '2624750004598718', //加密和解密的向量
     debug: true, //true:用于本地调试
     port: 3000, //本地服务监听端口
     host: 'localhost', //服务域名
