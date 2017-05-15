@@ -74,6 +74,6 @@ router.post('/order/list', order.list);
 router.post('/qrcode/info/save', qrcode_info.save);
 router.post('/qrcode/info/list', qrcode_info.list);
 router.post('/qrcode/list', qrcode.list);
-router.get('/qrcode/exportExcel/:id', common.exportExcel); //跳转到后台
+router.get('/qrcode/exportExcel/:id', qrcode.exportExcel); //跳转到后台
 
 module.exports = router;

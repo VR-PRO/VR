@@ -9,7 +9,7 @@ var qrcode = models.Qrcode;
 exports.list = function(qrInfoId, callback) {
     qrcode.findAll({
         where: {
-            qrcodeInfoId: qrInfoId
+            infoId: qrInfoId
         }
     }).then(function(qrcodeList) {
         callback(null, qrcodeList);

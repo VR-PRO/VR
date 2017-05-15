@@ -484,7 +484,7 @@
                                     <td>{{item.count}}</td>
                                     <td>{{item.remark}}</td>
                                     <td>
-                                        <a href="javascript:;;">下载</a>
+                                        <a href='/qrcode/exportExcel/{{item.id}}' href="javascript:;;">下载</a>
                                     </td>
                                 </tr>
                                 <tr ng-if="qrcodeListVm.page.vm.list.length==0">

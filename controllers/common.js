@@ -96,7 +96,3 @@ exports.baseInfoUpdate = function(req, res, next) {
         }
     }
 }
-
-exports.exportExcel = function(req, res, next) {
-
-}

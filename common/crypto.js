@@ -2,7 +2,6 @@
  * 加密与解密
  */
 var crypto = require('crypto');
-
 /**
  * 加密方法 http://www.tuicool.com/articles/YRZFZ3U 
  * @param key 加密key
@@ -15,7 +14,8 @@ exports.encrypt = function(key, iv, data) {
     var crypted = cipher.update(data, 'utf8', 'binary');
     crypted += cipher.final('binary');
     crypted = new Buffer(crypted, 'binary').toString('base64');
-    return crypted;
+    var _result = crypted.replace(/\//g, '-');
+    return _result;
 };
 
 /**
@@ -26,6 +26,7 @@ exports.encrypt = function(key, iv, data) {
  * @returns string
  */
 exports.decrypt = function(key, iv, crypted) {
+    crypted = crypted.replace(/-/g, '/');
     crypted = new Buffer(crypted, 'base64').toString('binary');
     var decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
     var decoded = decipher.update(crypted, 'binary', 'utf8');
