@@ -20,9 +20,9 @@ exports.save = function(_dev, callback) {
             devCode: _dev.devCode,
             qrCodes: qrCodes.join(',')
         }, { transaction: t }).then(function() {
-            //更新对应的qrcode 为 使用状态
             Qrcode.update({
-                status: 1
+                status: 1,
+                devcode: _dev.devCode
             }, {
                 where: {
                     qrCode: {
@@ -136,10 +136,9 @@ exports.findAllByHotelIds = function(hotelIds, callback) {
 }
 
 exports.detailByQrcode = function(qrcode, callback) {
-    var sql = 'SELECT dev.devCode ' +
-        ' FROM t_v_dev dev ' +
-        ' LEFT JOIN t_v_dev_qrcode qrcode ON qrcode.devId = dev.id ' +
-        ' WHERE qrcode.qrCode = ' + qrcode;
+    var sql = ' SELECT dev.devCode FROM t_v_dev dev \
+                 LEFT JOIN t_v_qrcode qrcode ON dev.devCode = qrcode.devcode \
+                 WHERE qrcode.qrcode = "' + qrcode + '"';
     sequelize.query(sql, {
         type: sequelize.QueryTypes.SELECT
     }).then(function(results) {
