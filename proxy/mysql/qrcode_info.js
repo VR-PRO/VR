@@ -2,8 +2,6 @@
  * 生成记录表
  */
 var models = require('../../models/mysql');
-var encrypt = require('../../common/crypto');
-var config = require('../../config');
 var moment = require('moment');
 
 var qrcodeInfo = models.QrcodeInfo;
@@ -15,21 +13,14 @@ exports.save = function(count, remark, callback) {
             count: count,
             remark: remark
         }, { transaction: t }).then(function(qrInfo) {
-            var dtStr = moment(qrInfo.created).format("YYYYMMDDHHmmss");
-            var initCount = 1;
+            var orgCount = moment().unix();
+            var initCount = Number(orgCount + '0001');
             count = Number(count);
             var qrcodeList = [];
             for (var i = 0; i < count; i++) {
-                var tempNumber = '000000' + initCount;
-                var initQrcode = 'vr' + dtStr + tempNumber.substr(-4);
-                var encryptQrcode = encrypt.encrypt(config.cryptoKey, config.cryptoIv, initQrcode);
-
                 var obj = {
                     infoId: qrInfo.id,
-                    qrcode: encryptQrcode,
-                    init_qrcode: initQrcode,
-                    crypto_key: config.cryptoKey,
-                    crypto_iv: config.cryptoIv,
+                    qrcode: initCount.toString(16)
                 };
                 qrcodeList.push(obj);
                 initCount = initCount + 1;

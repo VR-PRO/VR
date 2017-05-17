@@ -1,5 +1,6 @@
 /**
  * 描述:js模板
+ * https://my.oschina.net/comfiger/blog/368200
  */
 (function() {
     angular

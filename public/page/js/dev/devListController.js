@@ -182,6 +182,13 @@
                 opt.list();
             },
             check: function(callback) {
+
+                /**
+                 * 1: 二维码是否有效
+                 * 2: 二维码是否已经被使用
+                 * 3: 
+                 */
+
                 devListVm.loading = true;
                 var devCode = _.trim(devListVm.page.vm.save.devCode);
                 var data = {

@@ -68,5 +68,6 @@ if (!module.parent) {
         logger.info('');
     });
 }
+
 global._ = _;
 module.exports = app;

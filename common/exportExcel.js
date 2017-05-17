@@ -19,7 +19,7 @@ exports.excelExportForQrcode = function(data) {
 
     _.forEach(data, function(item) {
         var _url = url + item.qrcode;
-        m_data.push([_url, item.init_qrcode]);
+        m_data.push([_url, item.qrcode]);
     });
     conf.rows = m_data;
 

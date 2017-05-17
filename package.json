@@ -30,6 +30,7 @@
     "mysql": "^2.13.0",
     "node-schedule": "^1.2.1",
     "qiniu": "^6.1.13",
+    "seedrandom": "^2.4.3",
     "sequelize": "^3.30.4",
     "serve-favicon": "~2.3.2",
     "utility": "^1.11.0",
