@@ -1,7 +1,8 @@
 var models = require('../../models/mysql');
 
 var Dev = models.Dev;
-var DevQrcode = models.DevQrcode;
+var Qrcode = models.Qrcode;
+
 var sequelize = models.sequelize;
 
 exports.save = function(_dev, callback) {
@@ -18,12 +19,17 @@ exports.save = function(_dev, callback) {
             hotelId: _dev.hotelId,
             devCode: _dev.devCode,
             qrCodes: qrCodes.join(',')
-        }, { transaction: t }).then(function(dev) {
-            var tempCommitArr = [];
-            _.forEach(_dev.qrcodeList, function(qr) {
-                tempCommitArr.push({ qrCode: qr.qrcode, devId: dev.id });
+        }, { transaction: t }).then(function() {
+            //更新对应的qrcode 为 使用状态
+            Qrcode.update({
+                status: 1
+            }, {
+                where: {
+                    qrCode: {
+                        $in: qrCodes
+                    }
+                }
             });
-            return DevQrcode.bulkCreate(tempCommitArr, { transaction: t });
         });
     }).then(function(agent) {
         callback(null, agent);
@@ -76,7 +82,7 @@ exports.check = function(qrcodes, devCode, callback) {
         if (cnt > 0) {
             msg.push('设备号已存在.');
         }
-        DevQrcode.findAll({
+        Qrcode.findAll({
             where: {
                 qrCode: {
                     $in: qrcodes
@@ -84,9 +90,20 @@ exports.check = function(qrcodes, devCode, callback) {
             }
         }).then(function(qr) {
             if (qr) {
+                var _resultArr = [];
                 _.forEach(qr, function(item) {
-                    msg.push('二维码' + item.qrCode + '已存在.');
-                })
+                    _resultArr.push(item.qrcode);
+                    if (item.status == 1) {
+                        msg.push('二维码' + item.qrcode + '已被绑定.');
+                    }
+                });
+                if (qrcodes.length != qr.length) {
+                    _.forEach(qrcodes, function(qrcode) {
+                        if (_resultArr.indexOf(qrcode) == -1) {
+                            msg.push('二维码' + qrcode + '不存在.');
+                        }
+                    });
+                }
             }
             if (msg.length > 0) {
                 callback(msg, null);
