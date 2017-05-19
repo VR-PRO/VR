@@ -12,6 +12,17 @@ qiniu.conf.SECRET_KEY = qnCfg.secretKey;
 
 exports.uploadImg = function(req, res, next) {
     var filePath = req.files.file.path;
+    if (!filePath) {
+        res.json({ result: 0, msg: '文件不可为空.', data: {} });
+        return;
+    }
+    var index = filePath.lastIndexOf('.');
+    var suffix = filePath.substring(index, filePath.length);
+    if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(suffix)) {
+        res.json({ result: 0, msg: '图片类型必须是.gif,jpeg,jpg,png中的一种', data: {} });
+        return;
+    }
+
     var putPolicy = new qiniu.rs.PutPolicy(qnCfg.bucket);
     var extra = new qiniu.io.PutExtra();
     var token = putPolicy.token();

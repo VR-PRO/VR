@@ -69,5 +69,13 @@ if (!module.parent) {
     });
 }
 
+/**
+ * 异常的捕捉
+ */
+process.on('uncaughtException', function(err) {
+    logger.error(err);
+});
+
+
 global._ = _;
 module.exports = app;

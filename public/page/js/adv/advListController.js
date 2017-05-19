@@ -120,17 +120,23 @@
                     processData: false, //  不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
                     contentType: false, //  不设置Content-type请求头
                     success: function(res) {
-                        message.success('上传成功.');
-                        var imgCode = res.data.imgCode || '';
-                        advListVm.page.vm.save.imgCode = imgCode;
+                        if (res.result == 1) {
+                            message.success('上传成功.');
+                            var imgCode = res.data.imgCode || '';
+                            advListVm.page.vm.save.imgCode = imgCode;
 
-                        $("#uploadFormFile").val(null);
-                        if ($("#uploadFormFile").val()) {
-                            document.getElementById("uploadForm").reset();
+                            $("#uploadFormFile").val(null);
+                            if ($("#uploadFormFile").val()) {
+                                document.getElementById("uploadForm").reset();
+                            }
+
+                            advListVm.loading = false;
+                            vrHelper.block.unblockUI('#advUploadImgLoadId');
+                        } else {
+                            message.error(res.msg);
+                            advListVm.loading = false;
+                            vrHelper.block.unblockUI('#advUploadImgLoadId');
                         }
-
-                        advListVm.loading = false;
-                        vrHelper.block.unblockUI('#advUploadImgLoadId');
                         $scope.$apply();
                     },
                     error: function() {
