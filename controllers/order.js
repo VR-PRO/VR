@@ -74,6 +74,29 @@ exports.list = function(req, res, next) {
     var st = req.body.st;
     var et = req.body.et;
 
+    if (!/^[0-9]*$/.test(pageNo)) {
+        res.json({ result: 0, msg: 'pageNo 参数格式不争取.', data: {} });
+        return;
+    }
+    if (!/^[0-9]*$/.test(pageSize)) {
+        res.json({ result: 0, msg: 'pageSize 参数格式不争取.', data: {} });
+        return;
+    }
+
+    if (!st) {
+        res.json({ result: 0, msg: '开始时间不可为空.', data: {} });
+        return;
+    }
+    if (!et) {
+        res.json({ result: 0, msg: '开始时间不可为空.', data: {} });
+        return;
+    }
+
+
+    pageNo = Number(req.body.pageNo);
+    pageSize = Number(req.body.pageSize);
+
+
     var agentId = req.body.agentId;
     var hotelId = req.body.hotelId;
 
@@ -82,7 +105,7 @@ exports.list = function(req, res, next) {
         agentId = [session.agentId];
     }
     if (!hotelId && session && session.hotelId) {
-        hotelId =[session.hotelId];
+        hotelId = [session.hotelId];
     }
     Order.list(pageNo, pageSize, key, agentId, hotelId, st, et, function(error, result) {
         if (error) {
@@ -198,9 +221,9 @@ exports.detailByQrcode = function(req, res, next) {
                             if (error) {
                                 res.json({ result: 0, msg: error.message, data: {} });
                             } else {
-                                if(result){
+                                if (result) {
                                     res.json({ result: 1, msg: '', data: result });
-                                }else{
+                                } else {
                                     res.json({ result: 0, msg: '未有需要支付的订单信息,\r\n请在VR眼镜端进行下单后扫码.', data: {} });
                                 }
                             }
