@@ -133,7 +133,6 @@ exports.tjList = function(agent, hotel, dev, st, et, agentId, hotelId, callback)
 exports.isplay = function(devcode, movieKey, callback) {
     return Order.findOne({
         where: {
-            movieKey: movieKey,
             devCode: devCode,
             payStatus: 'S_ZFZT_YZF'
         }

@@ -243,11 +243,10 @@ exports.detailByQrcode = function(req, res, next) {
 
 exports.isplay = function(req, res, next) {
     var devcode = req.params.devcode || '';
-    var movieKey = req.params.mkey || '';
-    if (!devcode && !movieKey) {
+    if (!devcode) {
         res.json({ result: 0, msg: '参数错误', data: {} });
     } else {
-        Order.isplay(devcode, movieKey, function(error, result) {
+        Order.isplay(devcode, function(error, result) {
             if (error) {
                 res.json({ result: 0, msg: error.message, data: {} });
             } else {

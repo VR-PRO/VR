@@ -29,14 +29,18 @@ router.get('/wx/user/:', function() {});
  * 2:电影名称
  * 3:唯一key值(看看能不能提供)
  */
-router.post('/order/save', order.save);
+//router.post('/order/save', order.save);
 /**
  * 影片是否可以观看
  * 1: 电影关键key
  * 2: 设备号
  */
-router.get('/movie/isplay/:mkey/:devcode', order.isplay);
+//router.get('/movie/isplay/:mkey/:devcode', order.isplay);
 
+/**
+ * 设备是否可以玩
+ */
+router.get('/dev/isplay/:devcode', order.isplay);
 
 /*
   get /api/v1/adv/list 获取广告api接口
