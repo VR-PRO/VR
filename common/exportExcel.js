@@ -15,7 +15,7 @@ exports.excelExportForQrcode = function(data) {
 
     var m_data = [];
 
-    var url = 'http://' + config.host + (config.port ? (":" + config.port) : '') + '/api/v1/order/detail/';
+    var url = 'https://' + config.host + (config.port ? (":" + config.port) : '') + '/api/v1/order/detail/';
 
     _.forEach(data, function(item) {
         var _url = url + item.qrcode;
