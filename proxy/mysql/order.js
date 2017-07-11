@@ -2,6 +2,7 @@
  * 订单管理 - service
  */
 var models = require('../../models/mysql');
+var moment = require('moment');
 
 var Order = models.Order;
 var sequelize = models.sequelize;
@@ -59,7 +60,11 @@ exports.detail = function(devCode, callback) {
     return Order.findOne({
         where: {
             devCode: devCode,
-            payStatus: 'S_ZFZT_DZF'
+            created: {
+                $lte: moment().add(1,'days').format("YYYY-MM-DD 13:00:00"),
+                $gte:  moment().format("YYYY-MM-DD HH:mm:ss")
+            },
+            payStatus: 'S_ZFZT_YZF'
         }
     }).then(function(result) {
         callback(null, result);

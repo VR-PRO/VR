@@ -224,7 +224,7 @@ exports.detailByQrcode = function(req, res, next) {
                                 if (result) {
                                     res.json({ result: 1, msg: '', data: result });
                                 } else {
-                                    res.json({ result: 0, msg: '未有需要支付的订单信息,\r\n请在VR眼镜端进行下单后扫码.', data: {} });
+                                    res.json({ result: 0, msg: '', data: { } });
                                 }
                             }
                         });
