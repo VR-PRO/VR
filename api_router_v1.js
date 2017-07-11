@@ -14,6 +14,10 @@ var order = require('./controllers/order');
  */
 router.get('/order/detail/:qrcode', order.detailByQrcode);
 /**
+ * 创建订单
+ */
+router.post('/order/save', order.save);
+/**
  * 微信支付回调接口
  */
 router.get('/pay/success/:devCode/:orderId', function() {});
@@ -23,20 +27,6 @@ router.get('/pay/success/:devCode/:orderId', function() {});
 router.get('/wx/user/:', function() {});
 
 //眼镜端接口
-/**
- * 创建订单:
- * 1:设备号
- * 2:电影名称
- * 3:唯一key值(看看能不能提供)
- */
-//router.post('/order/save', order.save);
-/**
- * 影片是否可以观看
- * 1: 电影关键key
- * 2: 设备号
- */
-//router.get('/movie/isplay/:mkey/:devcode', order.isplay);
-
 /**
  * 设备是否可以玩
  */

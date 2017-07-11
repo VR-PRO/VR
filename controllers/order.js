@@ -6,10 +6,10 @@ exports.save = function(req, res, next) {
     var agentId = '';
     var hotelId = '';
 
-    var movieKey = req.body.movieKey;
+    var movieKey = req.body.movieKey||'';
     var realFee = req.body.realFee;
     var devCode = req.body.devCode;
-    var movieName = req.body.movieName;
+    var movieName = req.body.movieName||'';
 
 
     /**

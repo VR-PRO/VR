@@ -5,7 +5,7 @@
 var config = {
     debug: true, //true:用于本地调试
     port: 3000, //本地服务监听端口
-    host: 'vr.mtscrm.com', //服务域名
+    host: 'localhost', //服务域名
     /*
      * mysql 数据库配置设置
      * */
