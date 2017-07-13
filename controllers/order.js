@@ -1,16 +1,16 @@
 var Order = require('../proxy/mysql/order');
 var Dev = require('../proxy/mysql/dev');
 var Hotel = require('../proxy/mysql/hotel');
+var logger = require('../common/logger');
 
 exports.save = function(req, res, next) {
     var agentId = '';
     var hotelId = '';
 
-    var movieKey = req.body.movieKey||'';
+    var openId = req.body.openId || '';
     var realFee = req.body.realFee;
     var devCode = req.body.devCode;
-    var movieName = req.body.movieName||'';
-
+    var movieName = req.body.movieName || '';
 
     /**
      * 验证是否该设备号有未完成的订单
@@ -18,15 +18,15 @@ exports.save = function(req, res, next) {
 
     Order.detailByDevCode(devCode, function(error, result) {
         if (error) {
-            res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
+            res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: { body: req.body } });
         } else {
             var len = result.length;
             if (len > 0) {
-                res.json({ result: 0, msg: '创建订单失败.\r\n 有未支付的订单,请扫描后重新下单。', data: {} });
+                res.json({ result: 0, msg: '创建订单失败.\r\n 有未支付的订单,请扫描后重新下单。', data: result[0] });
             } else {
                 Dev.detailByDevCode(devCode, function(error, result) {
                     if (error) {
-                        res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
+                        res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: { body: req.body } });
                     } else {
                         if (result) {
 
@@ -35,20 +35,20 @@ exports.save = function(req, res, next) {
 
                             Hotel.detailById(hotelId, function(error, hotel) {
                                 if (error) {
-                                    res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: {} });
+                                    res.json({ result: 0, msg: '创建订单失败.\r\n' + error.message, data: { body: req.body } });
                                 } else {
                                     if (hotel) {
                                         Order.save({
                                             movieName: movieName,
                                             agentId: agentId,
                                             hotelId: hotelId,
-                                            movieKey: movieKey,
+                                            openId: openId,
                                             realFee: realFee,
                                             devCode: devCode,
                                             addr: hotel.addr
                                         }, function(error, result) {
                                             if (error) {
-                                                res.json({ result: 0, msg: '创建订单失败.', data: {} });
+                                                res.json({ result: 0, msg: '创建订单失败.', data: { body: req.body } });
                                             } else {
                                                 res.json({ result: 1, msg: '创建订单成功.', data: { result: result } });
                                             }
@@ -57,7 +57,7 @@ exports.save = function(req, res, next) {
                                 }
                             });
                         } else {
-                            res.json({ result: 0, msg: '创建订单失败.', data: {} });
+                            res.json({ result: 0, msg: '创建订单失败.', data: { body: req.body } });
                         }
                     }
                 });
@@ -224,7 +224,7 @@ exports.detailByQrcode = function(req, res, next) {
                                 if (result) {
                                     res.json({ result: 1, msg: '', data: result });
                                 } else {
-                                    res.json({ result: 0, msg: '', data: { } });
+                                    res.json({ result: 0, msg: '', data: { devCode: devCode } });
                                 }
                             }
                         });
@@ -259,4 +259,70 @@ exports.isplay = function(req, res, next) {
             }
         });
     }
+}
+
+exports.create = function(openId, devCode, realFee, shopOrderId, wx, res) {
+    Order.detailByDevCode(devCode, function(error, result) {
+        if (error) {
+            res.json({ result: 0, msg: '创建订单失败0.\r\n', data: {} });
+        } else {
+            var len = result.length;
+            if (len > 0) {
+                var item = result[0];
+                logger.info("--------------------");
+                logger.info(item);
+                logger.info("--------------------");
+                Order.updateOutTradeNo(shopOrderId, item.id);
+                res.json({ result: 0, msg: '', data: wx });
+            } else {
+                Dev.detailByDevCode(devCode, function(error, result) {
+                    if (error) {
+                        res.json({ result: 0, msg: '创建订单失败1.\r\n', data: {} });
+                    } else {
+                        if (result) {
+                            agentId = result.agentId;
+                            hotelId = result.hotelId;
+
+                            Hotel.detailById(hotelId, function(error, hotel) {
+                                if (error) {
+                                    logger.error(error);
+                                    res.json({ result: 0, msg: '创建订单失败2.\r\n', data: {} });
+                                } else {
+                                    if (hotel) {
+                                        Order.save({
+                                            movieName: '魅影VR-观影微信支付',
+                                            agentId: agentId,
+                                            hotelId: hotelId,
+                                            openId: openId,
+                                            realFee: realFee,
+                                            devCode: devCode,
+                                            prepayid: wx.prepayid,
+                                            out_trade_no: shopOrderId,
+                                            addr: hotel.addr
+                                        }, function(error, result) {
+                                            if (error) {
+                                                res.json({ result: 0, msg: '创建订单失败3.\r\n', data: {} });
+                                            } else {
+                                                res.json({ result: 1, msg: '创建订单成功.', data: wx });
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
+                            res.json({ result: 1, msg: '', data: wx });
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
+exports.updatePayResult = function(out_trade_no) {
+    Order.updatePayResult(out_trade_no, function() {});
+}
+
+exports.updateOutTradeNo = function(out_trade_no, id) {
+    Order.updateOutTradeNo(out_trade_no, id, function() {});
 }

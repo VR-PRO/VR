@@ -12,10 +12,12 @@ exports.save = function(order, callback) {
         movieName: order.movieName,
         agentId: order.agentId,
         hotelId: order.hotelId,
-        movieKey: order.movieKey,
+        openId: order.openId,
         realFee: order.realFee,
         devCode: order.devCode,
-        addr: order.addr
+        addr: order.addr,
+        prepayid: order.prepayid,
+        out_trade_no: order.out_trade_no
     }).then(function(result) {
         callback(null, result);
     });
@@ -61,8 +63,8 @@ exports.detail = function(devCode, callback) {
         where: {
             devCode: devCode,
             created: {
-                $lte: moment().add(1,'days').format("YYYY-MM-DD 13:00:00"),
-                $gte:  moment().format("YYYY-MM-DD HH:mm:ss")
+                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00"),
+                $gte: moment().format("YYYY-MM-DD HH:mm:ss")
             },
             payStatus: 'S_ZFZT_YZF'
         }
@@ -164,6 +166,28 @@ exports.detailByDevCode = function(devCode, callback) {
 
 exports.updateIsPlay = function(callback) {
     var sql = 'UPDATE t_v_order o SET o.isPlay = 0 WHERE o.isPlay = 1 AND  ADDDATE(o.created,INTERVAL 24 HOUR ) <= NOW()';
+    sequelize.query(sql, {
+        type: sequelize.QueryTypes.UPDATE
+    }).then(function(results) {
+        callback(null, results);
+    }).catch(function(error) {
+        callback(error, null);
+    });
+}
+
+exports.updatePayResult = function(out_trade_no, callback) {
+    var sql = 'UPDATE t_v_order o SET o.payStatus = "S_ZFZT_YZF" WHERE o.out_trade_no="' + out_trade_no + '"';
+    sequelize.query(sql, {
+        type: sequelize.QueryTypes.UPDATE
+    }).then(function(results) {
+        callback(null, results);
+    }).catch(function(error) {
+        callback(error, null);
+    });
+}
+
+exports.updateOutTradeNo = function(out_trade_no, id, callback) {
+    var sql = 'UPDATE t_v_order o SET o.out_trade_no = "' + out_trade_no + '" WHERE o.id=' + id;
     sequelize.query(sql, {
         type: sequelize.QueryTypes.UPDATE
     }).then(function(results) {

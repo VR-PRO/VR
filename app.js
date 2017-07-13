@@ -16,6 +16,7 @@ var app = express();
 var logger = require('./common/logger');
 var config = require('./config');
 var schedule = require('node-schedule');
+require('body-parser-xml')(bodyParser);
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -23,6 +24,15 @@ var staticDir = path.join(__dirname, 'public');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('.html', require('ejs').__express);
+
+app.use(bodyParser.xml({
+    limit: '2MB', // Reject payload bigger than 1 MB
+    xmlParseOptions: {
+        normalize: true, // Trim whitespace inside text nodes
+        normalizeTags: true, // Transform tags to lowercase
+        explicitArray: false // Only put nodes in array if >1
+    }
+}))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
