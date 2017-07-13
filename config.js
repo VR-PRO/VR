@@ -10,10 +10,10 @@ var config = {
      * mysql 数据库配置设置
      * */
     mysql: {
-        'host': 'rm-2zeb9951w845zbr9yo.mysql.rds.aliyuncs.com',
-        'username': 'xcrmdbatest',
-        'password': 'xcrmdbtest--2016',
-        'database': 'xcrm_test_01',
+        'host': 'rm-.mysql.rds..com',
+        'username': '',
+        'password': '--2016',
+        'database': '',
         'charset': 'utf8',
         'port': '3306',
     },
@@ -27,10 +27,10 @@ var config = {
      *七牛 上传配置
      * */
     qn_access: {
-        accessKey: '9yN3_02PLEYcWVquQCBdpyuGX4OXTahRGYXbJ6uo',
-        secretKey: 'x3T6ANzr12rV7qvtnYGkbYhSnNBKR7lA3wPtnhJY',
+        accessKey: '',
+        secretKey: '',
         bucket: 'vrpro',
-        origin: 'http://oomrprje8.bkt.clouddn.com/'
+        origin: 'http://.bkt.clouddn.com/'
     },
     /*
      * redis 配置
