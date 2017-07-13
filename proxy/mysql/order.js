@@ -63,10 +63,8 @@ exports.detail = function(devCode, callback) {
         where: {
             devCode: devCode,
             created: {
-                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00"),
-                $gte: moment().format("YYYY-MM-DD HH:mm:ss")
-            },
-            payStatus: 'S_ZFZT_YZF'
+                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00")
+            }
         }
     }).then(function(result) {
         callback(null, result);
@@ -150,12 +148,13 @@ exports.isplay = function(devcode, movieKey, callback) {
     });
 }
 
-
 exports.detailByDevCode = function(devCode, callback) {
     return Order.findAll({
         where: {
             devCode: devCode,
-            payStatus: 'S_ZFZT_DZF'
+            created: {
+                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00")
+            }
         }
     }).then(function(result) {
         callback(null, result);

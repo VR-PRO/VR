@@ -15,11 +15,8 @@ var moment = require('moment');
  * 根据二维码查询是否有订单信息
  */
 router.get('/order/detail/:qrcode', order.detailByQrcode);
-/**
- * 创建订单
- */
-router.post('/order/save', order.save);
 
+//预支付订单
 router.post('/wx/order', function(req, res, next) {
     var agentId = '';
     var hotelId = '';
