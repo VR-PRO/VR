@@ -135,12 +135,13 @@ exports.tjList = function(agent, hotel, dev, st, et, agentId, hotelId, callback)
     });
 }
 
-
-exports.isplay = function(devcode, movieKey, callback) {
-    return Order.findOne({
+exports.isplay = function(devcode, callback) {
+    return Order.findAll({
         where: {
-            devCode: devCode,
-            payStatus: 'S_ZFZT_YZF'
+            devCode: devcode,
+            created: {
+                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00")
+            }
         }
     }).then(function(result) {
         callback(null, result);

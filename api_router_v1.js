@@ -44,34 +44,12 @@ router.post('/wx/jscode2session', function(req, res, next) {
 
 });
 router.post('/wx/notify', wx.notify);
-/**
- * 微信支付回调接口
- */
-router.get('/pay/success/:devCode/:orderId', function() {});
-/**
- * 获取微信用户的信息(解密)
- */
-router.get('/wx/user/:', function() {});
 
 //眼镜端接口
 /**
  * 设备是否可以玩
  */
 router.get('/dev/isplay/:devcode', order.isplay);
-
-/*
-  get /api/v1/adv/list 获取广告api接口
-  无参数
-  返回值示例
-  {
-    "result":1,
-    "msg":"",
-    "data":
-    [
-      {"img":"http://oomrprje8.bkt.clouddn.com/FsLvjs7k-j3p67tq0bbX9qD6MFsY"},
-    ]
-  }
- */
 router.get('/adv/list', adv.api_v1_list);
 
 module.exports = router;

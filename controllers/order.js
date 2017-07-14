@@ -183,18 +183,28 @@ exports.detailByQrcode = function(req, res, next) {
 
 exports.isplay = function(req, res, next) {
     var devcode = req.params.devcode || '';
+    logger.info("****************");
+    logger.info(devcode);
+    logger.info("****************");
+
     if (!devcode) {
-        res.json({ result: 0, msg: '参数错误', data: {} });
+        res.json({ result: 0, msg: '无效的参数', data: {} });
     } else {
         Order.isplay(devcode, function(error, result) {
             if (error) {
                 res.json({ result: 0, msg: error.message, data: {} });
             } else {
-                var len = result.length;
-                if (len == 0) {
-                    res.json({ result: 1, msg: error.message, data: { isPlay: false } });
+                if (result&&result.length>0) {
+                    var _order = result[0];
+                    if (_order.payStatus === 'S_ZFZT_YZF') { //已经支付过了,前端需要直接跳转到agin页面
+                        res.json({ result: 1, msg: '', data: { isPlay: true } });
+                    } else if (_order.payStatus === 'S_ZFZT_DZF') { //待支付页面,直接更新对应的 交易码 
+                        res.json({ result: 0, msg: '未购买,请在微信小程序支付后体验', data: { isPlay: false } });
+                    } else {
+                        res.json({ result: 0, msg: '未购买,请在微信小程序支付后体验', data: { isPlay: false } });
+                    }
                 } else {
-                    res.json({ result: 1, msg: '', data: { isPlay: result.isplay } });
+                    res.json({ result: 0, msg: '未购买,请在微信小程序支付后体验', data: { isPlay: false } });
                 }
             }
         });
