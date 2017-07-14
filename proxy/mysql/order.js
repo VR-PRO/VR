@@ -16,6 +16,7 @@ exports.save = function(order, callback) {
         realFee: order.realFee,
         devCode: order.devCode,
         addr: order.addr,
+        wxName: order.nickName,
         prepayid: order.prepayid,
         out_trade_no: order.out_trade_no
     }).then(function(result) {

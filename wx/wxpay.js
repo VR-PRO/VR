@@ -76,6 +76,7 @@ var WxPay = {
     },
     // 此处的attach不能为空值 否则微信提示签名错误
     order: function(openid, bookingNo, _total_fee) {
+
         var deferred = Q.defer();
         var appid = config.appid;
         var nonce_str = this.createNonceStr();
@@ -109,6 +110,7 @@ var WxPay = {
             body: formData
         }, function(err, response, body) {
             if (!err && response.statusCode == 200) {
+
                 var prepay_id = self.getXMLNodeValue('prepay_id', body.toString("utf-8"));
                 var tmp = prepay_id.split('[');
                 var tmp1 = tmp[2].split(']');
@@ -148,34 +150,16 @@ var WxPay = {
         output = ejs.render(messageTpl, reply);
         return output;
     },
-    jscode2session: function() {
+    jscode2session: function(code, callback) {
+        var deferred = Q.defer();
         request({
-            url: url,
-            method: 'POST',
-            body: formData
+            url: 'https://api.weixin.qq.com/sns/jscode2session?appid=' + config.appid + '&secret=' + config.secret + '&js_code=' + code + '&grant_type=authorization_code',
+            method: 'POST'
         }, function(err, response, body) {
             if (!err && response.statusCode == 200) {
-                console.log(body);
-                var prepay_id = self.getXMLNodeValue('prepay_id', body.toString("utf-8"));
-                var tmp = prepay_id.split('[');
-                var tmp1 = tmp[2].split(']');
-                //签名
-                var _paySignjs = self.paysignjs(appid, nonce_str, 'prepay_id=' + tmp1[0], 'MD5', timeStamp);
-                var args = {
-                    appId: appid,
-                    timeStamp: timeStamp,
-                    nonceStr: nonce_str,
-                    signType: "MD5",
-                    package: tmp1[0],
-                    paySign: _paySignjs
-                };
-                //创建订单
-
-
-
-                deferred.resolve(args);
+                deferred.resolve(body);
             } else {
-                console.log(body);
+                deferred.reject();
             }
         });
         return deferred.promise;

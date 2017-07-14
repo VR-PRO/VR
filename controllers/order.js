@@ -201,7 +201,7 @@ exports.isplay = function(req, res, next) {
     }
 }
 
-exports.create = function(openId, devCode, realFee, shopOrderId, wx, res) {
+exports.create = function(openId, devCode, realFee, shopOrderId, nickName, wx, res) {
     Order.detailByDevCode(devCode, function(error, result) {
         if (error) {
             res.json({ result: 0, msg: '创建订单失败0.\r\n', data: {} });
@@ -238,6 +238,7 @@ exports.create = function(openId, devCode, realFee, shopOrderId, wx, res) {
                                             devCode: devCode,
                                             prepayid: wx.prepayid,
                                             out_trade_no: shopOrderId,
+                                            nickName: nickName,
                                             addr: hotel.addr
                                         }, function(error, result) {
                                             if (error) {
