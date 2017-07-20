@@ -18,7 +18,8 @@ exports.save = function(order, callback) {
         addr: order.addr,
         wxName: order.nickName,
         prepayid: order.prepayid,
-        out_trade_no: order.out_trade_no
+        out_trade_no: order.out_trade_no,
+        expired:( moment().add(1, 'days').format("YYYY-MM-DD 13:00:00"))
     }).then(function(result) {
         callback(null, result);
     });
@@ -63,8 +64,9 @@ exports.detail = function(devCode, callback) {
     return Order.findOne({
         where: {
             devCode: devCode,
-            created: {
-                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00")
+            expired: {
+                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00"),
+                $gte: moment().format("YYYY-MM-DD HH:mm:ss")
             }
         }
     }).then(function(result) {
@@ -139,8 +141,9 @@ exports.isplay = function(devcode, callback) {
     return Order.findAll({
         where: {
             devCode: devcode,
-            created: {
-                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00")
+            expired: {
+                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00"),
+                $gte: moment().format("YYYY-MM-DD HH:mm:ss")
             }
         }
     }).then(function(result) {
@@ -154,8 +157,9 @@ exports.detailByDevCode = function(devCode, callback) {
     return Order.findAll({
         where: {
             devCode: devCode,
-            created: {
-                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00")
+            expired: {
+                $lte: moment().add(1, 'days').format("YYYY-MM-DD 13:00:00"),
+                $gte: moment().format("YYYY-MM-DD HH:mm:ss")
             }
         }
     }).then(function(result) {
@@ -177,7 +181,7 @@ exports.updateIsPlay = function(callback) {
 }
 
 exports.updatePayResult = function(out_trade_no, callback) {
-    var sql = 'UPDATE t_v_order o SET o.payStatus = "S_ZFZT_YZF" WHERE o.out_trade_no="' + out_trade_no + '"';
+    var sql = 'UPDATE t_v_order o SET o.payStatus = "S_ZFZT_YZF" WHERE  o.payStatus = "S_ZFZT_DZF" AND o.out_trade_no="' + out_trade_no + '"';
     sequelize.query(sql, {
         type: sequelize.QueryTypes.UPDATE
     }).then(function(results) {

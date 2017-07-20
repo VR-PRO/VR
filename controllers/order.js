@@ -217,8 +217,10 @@ exports.create = function(openId, devCode, realFee, shopOrderId, nickName, wx, r
             res.json({ result: 0, msg: '创建订单失败0.\r\n', data: {} });
         } else {
             var len = result.length;
+            logger.info('len:' + len);
             if (len > 0) {
                 var curOrder = result[0];
+                logger.info('curOrder:' + JSON.stringify(curOrder));
                 if (curOrder.payStatus === 'S_ZFZT_YZF') { //已经支付过了,前端需要直接跳转到agin页面
                     res.json({ result: 2, msg: '', data: {} });
                 } else if (curOrder.payStatus === 'S_ZFZT_DZF') { //待支付页面,直接更新对应的 交易码 
@@ -231,6 +233,7 @@ exports.create = function(openId, devCode, realFee, shopOrderId, nickName, wx, r
                         res.json({ result: 0, msg: '创建订单失败', data: {} });
                     } else {
                         if (result) {
+                            logger.info('detailByDevCode:' + JSON.stringify(result));
                             agentId = result.agentId;
                             hotelId = result.hotelId;
 
@@ -239,6 +242,7 @@ exports.create = function(openId, devCode, realFee, shopOrderId, nickName, wx, r
                                     res.json({ result: 0, msg: '创建订单失败', data: {} });
                                 } else {
                                     if (hotel) {
+                                        logger.info('detailByDevCode:' + JSON.stringify(hotel));
                                         Order.save({
                                             movieName: '魅影VR-观影微信支付',
                                             agentId: agentId,

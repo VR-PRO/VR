@@ -110,7 +110,6 @@ var WxPay = {
             body: formData
         }, function(err, response, body) {
             if (!err && response.statusCode == 200) {
-
                 var prepay_id = self.getXMLNodeValue('prepay_id', body.toString("utf-8"));
                 var tmp = prepay_id.split('[');
                 var tmp1 = tmp[2].split(']');
@@ -127,7 +126,7 @@ var WxPay = {
                 };
                 deferred.resolve(args);
             } else {
-                console.log(body);
+                logger.error(err)
             }
         });
         return deferred.promise;

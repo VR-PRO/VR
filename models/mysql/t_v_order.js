@@ -16,6 +16,7 @@ module.exports = function(sequelize, Sequelize) {
         transaction_id: { type: Sequelize.STRING, field: 'transaction_id', comment: '微信支付订单号' },
         out_trade_no: { type: Sequelize.STRING, field: 'out_trade_no', comment: '商户订单号' },
         created: { type: Sequelize.DATE, field: 'created', comment: '创建时间', defaultValue: Sequelize.NOW },
+        expired: { type: Sequelize.DATE, field: 'expired', comment: '过期时间', defaultValue: Sequelize.NOW },
         payStatus: { type: Sequelize.STRING, field: 'payStatus', comment: '支付状态 S_ZFZT_DZF  S_ZFZT_YZF', defaultValue: 'S_ZFZT_DZF' },
         isPlay: { type: Sequelize.BOOLEAN, field: 'isPlay', comment: '是否允许播放该电影,24小时后自动失效。', defaultValue: 0 },
         status: { type: Sequelize.BOOLEAN, field: 'status', comment: '状态', defaultValue: 1 }

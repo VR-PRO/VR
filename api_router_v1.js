@@ -26,7 +26,9 @@ router.post('/wx/order', function(req, res, next) {
     var nickName = req.body.nickName;
 
     var shopOrderId = moment().format('YYYYMMDD') + wx.createNonceStr();
+    logger.info("input wx-order:");
     wx.order(openId, shopOrderId, realFee).then(function(_res) {
+        logger.info("input create:");
         order.create(openId, devCode, realFee, shopOrderId, nickName, _res, res);
     }).catch(function(err) {
         logger.error(err);
